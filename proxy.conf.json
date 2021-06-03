@@ -1,0 +1,7 @@
+{
+    "/MVC*": {
+        "target": "https://ecommerce.sagaji.com.mx/sagaji",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

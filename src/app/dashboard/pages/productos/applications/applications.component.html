@@ -1,0 +1,175 @@
+<nb-card>
+    <nb-card-header class="card_header">
+
+        <div class="col-10 fontSize">
+            <nb-icon class="icon nb-arrow-thin-left iconBack" status="info" [routerLink]="['/dashboard/productos']"
+                title="Regresar">
+            </nb-icon>
+            {{ this.title }}
+        </div>
+        <div class="col-2">
+            <button class="posicion" nbButton hero status="info" size="small"
+                (click)="open(content)">
+                Agregar
+            </button>
+        </div>
+
+    </nb-card-header>
+</nb-card>
+
+<nb-card style="margin-top: -15px;">
+
+    <nb-card-body>
+
+        <div class="row">
+            <div class="table-responsive">
+                <form style="margin-top: 3px;">
+                    <div class="form-group form-inline">
+                        Buscar: <input nbInput class="form-control ml-2" type="text" [formControl]="filter" />
+                    </div>
+                </form>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Armadora</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">Cilindros</th>
+                            <th scope="col">Motor</th>
+                            <th scope="col">Año inicial</th>
+                            <th scope="col">Año final</th>
+                            <!-- <th class="widthCol"></th> -->
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let country of this.aplicaciones; index as i">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>
+                                <ngb-highlight [result]="country.armadora" [term]="filter.value"></ngb-highlight>
+                            </td>
+                            <td>
+                                <ngb-highlight [result]="country.modelo" [term]="filter.value"></ngb-highlight>
+                            </td>
+                            <td>
+                                <ngb-highlight [result]="country.cilindro" [term]="filter.value"></ngb-highlight>
+                            </td>
+                            <td>
+                                <ngb-highlight [result]="country.motor" [term]="filter.value"></ngb-highlight>
+                            </td>
+                            <td>
+                                <ngb-highlight [result]="country.periodoi" [term]="filter.value"></ngb-highlight>
+                            </td>
+                            <td>
+                                <ngb-highlight [result]="country.periodof" [term]="filter.value"></ngb-highlight>
+                            </td>
+                            <!-- <td>
+                                <button class="buttonBox" nbButton hero status="danger"
+                                    (click)="onRemoveItem(country.id)" title="Eliminar">
+                                    <nb-icon icon="trash" pack="fas"></nb-icon>
+                                </button>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </nb-card-body>
+</nb-card>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <form [formGroup]="applicationForm" (ngSubmit)="onSeveForm()">
+        <nb-card>
+            <nb-card-header>Agregar vehículo</nb-card-header>
+
+            <nb-card-body>
+                <div class="row">
+                    <div class="col-6 content-select">
+                        <label class="label">Armadora:</label>
+                        <select class="form-control" type="text" (change)="onSelectModel($event.target.value)">
+                            <option>Seleccionar armadora</option>
+                            <option *ngFor="let select of this.selectors" [value]="select.id">{{ select.nombre }}
+                            </option>
+                        </select>
+                        <i></i>
+                    </div>
+                    <div class="col-6 content-select">
+                        <label class="label">Modelo</label>
+                        <select [disabled]="this.modelos?.length < 1" class="form-control" type="text"
+                            (change)="onSelectVersion($event.target.value)">
+                            <option>Seleccionar modelo</option>
+                            <option *ngFor="let modelo of this.modelos" [value]="modelo.id"> {{modelo.nombre}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 content-select">
+                        <label class="label">Version:</label>
+                        <select [disabled]="this.versiones?.length < 1" class="form-control" type="text">
+                            <option>Seleccionar version</option>
+                            <option>Todas las versiones</option>
+                            <option *ngFor="let version of versiones"> {{version.nombre}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                    <div class="col-6 content-select">
+                        <label class="label">Cilindros:</label>
+                        <select [disabled]="this.versiones?.length < 1" class="form-control" type="text">
+                            <option>Seleccionar cilindro</option>
+                            <option *ngFor="let cilindro of cilindros"> {{cilindro}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 content-select">
+                        <label class="label">Motor:</label>
+                        <select [disabled]="this.versiones?.length < 1" class="form-control" type="text">
+                            <option>Seleccionar motor</option>
+                            <option *ngFor="let motor of motores"> {{motor}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                    <div class="col-6">
+                        <label class="label">Año inicial:</label>
+                        <select class="form-control" type="text">
+                            <option *ngFor="let ano of anos"> {{ano.ano}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label class="label">Año final:</label>
+                        <input *ngIf="!ano_fi.dirty || ano_fi.valid" nbInput class="form-control" type="text"
+                            formControlName="ano_fi" placeholder="Año final">
+
+
+                        <div *ngIf="ano_fi.invalid && (ano_fi.dirty)">
+                            <input nbInput class="form-control" type="text" status="danger" formControlName="ano_fi"
+                                placeholder="Año final">
+                            <div class="alert-danger">
+                                <div class="container-error-message">
+                                    Este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </nb-card-body>
+
+            <nb-card-footer>
+                <button nbButton hero status="success" [disabled]="applicationForm.invalid"
+                    type="submit">Agregar</button>
+                <button nbButton outline style="margin-left: 15px;" (click)="close()">Cancelar</button>
+            </nb-card-footer>
+        </nb-card>
+    </form>
+</ng-template>

@@ -1,0 +1,87 @@
+<nb-card>
+    <nb-card-header>
+
+        <div class="fontSize">
+            <nb-icon class="icon nb-arrow-thin-left iconBack" status="info"
+                [routerLink]="['/dashboard/productos', this.id, 'equivalences']" title="Regresar">
+            </nb-icon>
+
+            Seleccione las refacciones equivalentes
+
+        </div>
+
+        <div class="col-2">
+            <button nbButton hero status="success" size="small" (click)="saveEquivalences()">
+                Guardar cambios
+            </button>
+        </div>
+
+    </nb-card-header>
+</nb-card>
+
+
+<nb-card style="margin-top: -15px;">
+
+    <nb-card-body>
+
+        <div class="row">
+
+            <div class="col">
+
+                <nb-card>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Imagen</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Tipo de producto</th>
+                                    <th scope="col">Linea</th>
+                                    <th scope="col">Categoría</th>
+                                    <th scope="col">#Parte</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let producto of this.productos; index as i">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td>
+                                        <nb-checkbox (checkedChange)="elementSelect(producto)"></nb-checkbox>
+                                    </td>
+                                    <td>
+                                        <img src="https://carplanet.mx/view/img/noticias/upload/-disco.png">
+                                    </td>
+                                    <td>
+                                        {{producto.nombre}}
+                                    </td>
+                                    <td>
+                                        {{producto.tipo}}
+                                    </td>
+                                    <td>
+                                        {{producto.linea}}
+                                    </td>
+                                    <td>
+                                        {{producto.categoria_}}
+                                    </td>
+                                    <td>
+                                        {{producto.parte}}
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </nb-card>
+
+            </div>
+
+        </div>
+
+    </nb-card-body>
+
+</nb-card>

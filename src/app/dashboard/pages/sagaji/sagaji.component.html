@@ -1,0 +1,135 @@
+<nb-card class="cardTitle">
+    <nb-card-header style="justify-content:left;">
+
+        <div class="fontSize">Inventario de Sagaji</div>
+
+    </nb-card-header>
+</nb-card>
+
+<nb-card>
+    <nb-card-body>
+
+        <div class="row">
+            <div class="col-3">
+                <select name="opcion1" (change)="capOption1($event.target.value)">
+                    <option [value]="0">Selecciona una opción</option>
+                    <option [value]="item" *ngFor="let item of this.opcion1">{{item}}</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <select name="opcion2" (change)="capOption2($event.target.value)">
+                    <option [value]="0">Selecciona una opción</option>
+                    <option [value]="item.clclave" *ngFor="let item of this.opcion2">{{item.descripcion}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-3">
+                <select name="opcion3" (change)="capOption3($event.target.value)">
+                    <option [value]="0">Selecciona una opción</option>
+                    <option [value]="item.clclave" *ngFor="let item of this.opcion3">{{item.descripcion}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-3">
+                <select name="opcion4" (change)="capOption4($event.target.value)">
+                    <option [value]="0">Selecciona una opción</option>
+                    <option [value]="item.clclave" *ngFor="let item of this.opcion4">{{item.descripcion}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <br><br>
+        <div class="table-responsive">
+            <table *ngIf="this.registros" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Nombre</th>
+                        <th>Linea</th>
+                        <th>Categoría</th>
+                        <th>Parte</th>
+                        <th>Precio Sagaji</th>
+                        <th>Precio a la venta</th>
+                        <th>Accion</th>                     
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let info of productos$; index as i">
+                        <td> {{ i + 1 }} </td>
+                        <td> {{info.dsproducto}} </td>
+                        <td>{{info.dslinea}}</td>
+                        <td>{{info.dscategoria}}</td>
+                        <td>{{info.clproducto}}</td>
+                        <td>{{info.preciocosto}}</td>
+                        <td>{{(info.preciocosto / 0.80) * 1.16}}</td>
+                        <td>
+                            <button (click)="agregarProducto(info)">Agregar</button>
+                            <button (click)="open(content, info, false)">Apli</button>
+                            <button (click)="open(content, info, true)">Equi</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 *ngIf="!this.registros">
+                No hay información a mostrar
+            </h3>
+        </div>
+
+    </nb-card-body>
+</nb-card>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <nb-card>
+        <nb-card-header *ngIf="!this.opciones">Aplicaciones
+        </nb-card-header>
+        <nb-card-header *ngIf="this.opciones">Equivalencias
+        </nb-card-header>
+        <nb-card-body>
+            <div *ngIf="!this.opciones" class="table table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Armadora</th>
+                            <th>Modelo</th>
+                            <th>Especificacion</th>
+                            <th>Cilindro</th>
+                            <th>Motor</th>
+                            <th>Periodo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of this.app">
+                            <td>{{item.armadora}}</td>
+                            <td>{{item.modelo}}</td>
+                            <td>{{item.especificacion}}</td>
+                            <td>{{item.cilindro}}</td>
+                            <td>{{item.motor}}</td>
+                            <td>{{item.periodoi}}-{{item.periodof}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="this.opciones" class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Linea</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of this.equi">
+                        <td>{{item.clequivalente}}</td>
+                        <td>{{item.dslinea}}</td>
+                    </tr>
+                </tbody>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button (click)="close()">Cerrar</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>

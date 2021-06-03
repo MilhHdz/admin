@@ -1,0 +1,92 @@
+<nb-card>
+    <nb-card-header style="display: flex; justify-content: center;">
+
+        <div class="col-10 fontSize">Armadoras</div>
+        <div class="col-2">
+            <button class="posicion" nbButton hero status="info" size="small"
+                (click)="open(content, true, null)">
+                agregar
+            </button>
+        </div>
+
+    </nb-card-header>
+</nb-card>
+
+<nb-card style="margin-top: -15px;">
+
+    <nb-card-body>
+
+        <div class="row">
+            <div class="table-responsive">
+                <form style="margin-top: 3px;">
+                    <div class="form-group form-inline">
+                        Buscar: <input nbInput class="form-control ml-2" type="text" [formControl]="filter" />
+                    </div>
+                </form>
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col" class="widthCol">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let info of this.armadoras$ | async; index as i">
+                            <th scope="row"> {{i + 1}} </th>
+                            <td> {{info.nombre}} </td>
+                            <td class="botonesT">
+                                <!-- <button class="buttonBox" nbButton hero status="warning"
+                                    (click)="open(content, false, info.nombre)" title="Editar">
+                                    <nb-icon icon="edit" pack="fas"></nb-icon>
+                                </button> -->
+                                <button class="buttonBox" nbButton hero status="danger" (click)="onRemoveItem(info.id)"
+                                    title="Eliminar">
+                                    <nb-icon icon="trash" pack="fas"></nb-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </nb-card-body>
+</nb-card>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <form [formGroup]="armadoraForm" (ngSubmit)="onSeveForm()">
+        <nb-card>
+            <nb-card-header *ngIf="this.optionModal">Agregar Armadora</nb-card-header>
+            <nb-card-header *ngIf="!this.optionModal">Agregar Armadora</nb-card-header>
+
+            <nb-card-body>
+                <label class="label">Nombre:</label>
+                <input *ngIf="!nombre_f.dirty || nombre_f.valid" nbInput fullWidth type="text"
+                    placeholder="Ingrese el nombre de la armadora" formControlName="nombre_f">
+
+                <div *ngIf="nombre_f.invalid && (nombre_f.dirty)">
+                    <input nbInput fullWidth type="text" status="danger" placeholder="Ingrese el nombre de la armadora"
+                        formControlName="nombre_f">
+                    <div class="alert-danger">
+                        <div class="container-error-message">
+                            Este campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+
+            <nb-card-footer>
+                <button *ngIf="this.optionModal" nbButton hero status="success" [disabled]="armadoraForm.invalid"
+                    type="submit">Agregar</button>
+                <button *ngIf="!this.optionModal" nbButton hero status="success" [disabled]="armadoraForm.invalid"
+                    type="submit">Guardar</button>
+                <button nbButton outline style="margin-left: 15px;" (click)="close()">Cancelar</button>
+            </nb-card-footer>
+        </nb-card>
+    </form>
+</ng-template>

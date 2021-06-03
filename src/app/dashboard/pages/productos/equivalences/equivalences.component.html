@@ -1,0 +1,74 @@
+<nb-card>
+    <nb-card-header>
+
+        <div class="fontSize">
+            <nb-icon class="icon nb-arrow-thin-left iconBack" status="info" [routerLink]="['/dashboard/productos']"
+                title="Regresar">
+            </nb-icon>
+
+            Equivalencias de {{ this.title }}
+        </div>
+        <div class="col-2">
+            <button nbButton hero status="primary"
+                [routerLink]="['/dashboard/productos', this.id, 'equivalences', 'agregar']">
+                Agregar
+            </button>
+        </div>
+
+    </nb-card-header>
+</nb-card>
+
+
+<nb-card style="margin-top: -15px;">
+
+    <nb-card-body>
+
+        <div class="row">
+
+            <div class="col">
+
+                <div class="table-responsive">
+                    <form style="margin-top: 3px;">
+                        <div class="form-group form-inline">
+                            Buscar: <input nbInput class="form-control ml-2" type="text" [formControl]="filter" />
+                        </div>
+                    </form>
+
+                    <table class="table table-striped">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">#Parte</th>
+                                <th scope="col">Linea</th>
+                                <!-- <td class="widthCol"></td> -->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let producto of equivalencias; index as i">
+                                <th scope="row">{{ i + 1}}</th>
+                                <td>
+                                    {{producto.clproducto}} 
+                                </td>
+                                <td>
+                                    {{producto.dslinea}}
+                                </td>
+                                <!-- <td class="botonesT">
+                                    <button class="buttonBox" nbButton hero status="danger"
+                                         title="Eliminar">
+                                        <nb-icon icon="trash" pack="fas"></nb-icon>
+                                    </button>
+                                </td> -->
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </nb-card-body>
+
+</nb-card>
