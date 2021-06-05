@@ -17,8 +17,8 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class SagajiComponent {
 
-    //Sagaji
-    opcion1: string[] = ["ArmadoraModeloDescripcion", "LineaDescripcionModelo", "DescripcionModeloLinea", "ModeloDescripcionPeriodo"];
+    // Sagaji
+    opcion1: string[] = ['ArmadoraModeloDescripcion', 'LineaDescripcionModelo', 'DescripcionModeloLinea', 'ModeloDescripcionPeriodo'];
     opcion2: select2[];
     opcion3: select3[];
     opcion4: select4[];
@@ -27,7 +27,7 @@ export class SagajiComponent {
     addprod: addPAD = {
         'nombre': '', 'unidadmedida': '', 'tipo': '',
         'linea': '', 'categoria': '', 'parte': '',
-        'precio': '', 'uni_9na': '', 'uni_pan': '', 'uni_sup': ''
+        'precio': '', 'uni_9na': '', 'uni_pan': '', 'uni_sup': '',
     };
 
     app: aplicaciones[];
@@ -79,7 +79,7 @@ export class SagajiComponent {
         if (clclave === '0') this.opcion3 = [];
         else {
             this.clclave2 = clclave;
-            this.service.url_select3 = this.service.url_select2 + "/" + clclave
+            this.service.url_select3 = this.service.url_select2 + '/' + clclave;
 
             this.service.getSelect3().subscribe(
                 res => {
@@ -93,7 +93,7 @@ export class SagajiComponent {
         if (clclave === '0') this.opcion4 = [];
         else {
             this.clclave3 = clclave;
-            this.service.url_select4 = this.service.url_select3 + "/" + clclave
+            this.service.url_select4 = this.service.url_select3 + '/' + clclave;
 
 
             this.service.getSelect4().subscribe(
@@ -108,7 +108,7 @@ export class SagajiComponent {
         this.clclave4 = clclave;
         if (this.clclave4 === '0') console.log('Nada que mostrar');
         else {
-            this.service.url_busqueda = this.service.url_select4+'/'+this.clclave4+'/'+0;
+            this.service.url_busqueda = this.service.url_select4 + '/' + this.clclave4 + '/' + 0;
 
 
             this.service.getBusqueda().subscribe(
@@ -119,12 +119,13 @@ export class SagajiComponent {
 
                         if (res.totalpaginas > 1) {
                             for (let i = 1; i < res.totalpaginas; i++) {
-                                this.service.url_busqueda = this.service.url_select4 + '/' + this.clclave4 + '/' + i.toString();
+                                this.service.url_busqueda = this.service.url_select4
+                                + '/' + this.clclave4 + '/' + i.toString();
 
                                 this.service.getBusqueda().subscribe(
                                     res => {
-                                        this.productos$ = this.productos$.concat(res.productos)
-                                    }
+                                        this.productos$ = this.productos$.concat(res.productos);
+                                    },
                                 );
                             }
                         }

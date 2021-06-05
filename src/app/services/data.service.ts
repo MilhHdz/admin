@@ -59,7 +59,7 @@ export class DataService {
 
 
     getAplicaciones(clproducto: string): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/aplicaciones/'+clproducto);
+        return this.http.get<any>('https://api-padd.herokuapp.com/aplicaciones/' + clproducto);
     }
 
 
@@ -78,7 +78,7 @@ export class DataService {
     }
 
     deleteProduct(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/product/'+id);
+        return this.http.delete('https://api-padd.herokuapp.com/product/' + id);
     }
 
     getAllCategories(): Observable<any> {
@@ -90,7 +90,7 @@ export class DataService {
     }
 
     deleteCategory(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/category/'+id);
+        return this.http.delete('https://api-padd.herokuapp.com/category/' + id);
     }
 
     getAllModels(): Observable<any> {
@@ -110,7 +110,7 @@ export class DataService {
     }
 
     deleteArmadora(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/armadora/'+id);
+        return this.http.delete('https://api-padd.herokuapp.com/armadora/' + id);
     }
 
     getAllLine(): Observable<any> {
@@ -122,9 +122,9 @@ export class DataService {
     }
 
     deleteLine(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/linea/'+id);
+        return this.http.delete('https://api-padd.herokuapp.com/linea/' + id);
     }
-    
+
     getAllProveedor(): Observable<any> {
         return this.http.get<any>('https://api-padd.herokuapp.com/proveedor/');
     }
@@ -134,7 +134,7 @@ export class DataService {
     }
 
     deleteProveedor(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/proveedor/'+id);
+        return this.http.delete('https://api-padd.herokuapp.com/proveedor/' + id);
     }
 
     getAllFactura(): Observable<any> {
@@ -146,7 +146,7 @@ export class DataService {
     }
 
     deleteFactura(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/factura/'+id);
+        return this.http.delete('https://api-padd.herokuapp.com/factura/' + id);
     }
 
     getAllCliente(): Observable<any> {
@@ -158,6 +158,6 @@ export class DataService {
     }
 
     deleteCliente(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/cliente  /'+id);
+        return this.http.delete('https://api-padd.herokuapp.com/cliente  /' + id);
     }
 }
