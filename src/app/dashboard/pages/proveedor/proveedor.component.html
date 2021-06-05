@@ -1,1 +1,70 @@
-<p>proveedor works!</p>
+<nb-card>
+    <nb-card-header style="display: flex; justify-content: center;">
+
+        <div class="col-10 fontSize">Proveedores</div>
+        <!-- <div class="col-2">
+            <button class="posicion" nbButton hero status="info" size="small" (click)="open(content, true, null)">
+                agregar
+            </button>
+        </div> -->
+
+    </nb-card-header>
+</nb-card>
+
+<nb-card style="margin-top: -15px;">
+
+    <nb-card-body>
+
+        <div class="row">
+            <div class="table-responsive">
+
+                <div class="row">
+                    <div class="col-6">
+                        <form style="margin-top: 3px;">
+                            <div class="form-group form-inline">
+                                <input nbInput placeholder="Buscar" type="text" class="form-control ml-2" [formControl]="filter">
+                                <!-- [formControl]="filter" -->
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-6">
+                        <form style="margin-top: 3px;" [formGroup]="proveedorForm">
+                            <div class="form-group form-inline">
+                                <input nbInput placeholder="Agregar nuevo proveedor" type="text" class="form-control" formControlName="nombre_f">
+                                <!-- [formControl]="filter" -->
+                            </div>
+                            <button [disabled]="proveedorForm.invalid" nbButton hero status="success" size="small" (click)="saveNewProveedor()">
+                                agregar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col" class="widthCol"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let proveedor of this.proveedores$ | async; index as i">
+                            <th scope="row">{{ i+1 }}</th>
+                            <td>{{proveedor.nombre}}</td>
+                            <td class="botonesT">
+                                <button class="buttonBox" nbButton hero status="danger"
+                                    title="Eliminar" (click)="deleteProveedor(proveedor.id)">
+                                    <nb-icon icon="trash" pack="fas"></nb-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
