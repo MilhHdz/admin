@@ -123,8 +123,8 @@ export class SagajiComponent {
                                     + '/' + this.clclave4 + '/' + i.toString();
 
                                 this.service.getBusqueda().subscribe(
-                                    res => {
-                                        this.productos$ = this.productos$.concat(res.productos);
+                                    resR => {
+                                        this.productos$ = this.productos$.concat(resR.productos);
                                     },
                                 );
                             }

@@ -17,7 +17,7 @@ import {
     ProdPAD,
     AddPAD,
 } from '../../../@core/data/productos';
-import { tipoProducto } from '../../../@core/data/tipo-de-producto';
+import { TipoProducto } from '../../../@core/data/tipo-de-producto';
 import { Armadora } from '../../../@core/data/armadoras';
 import { DataService } from 'app/services/data.service';
 import { NbIconLibraries } from '@nebular/theme';
@@ -37,8 +37,8 @@ export class ProductosComponent {
     producto: Country;
     productos = COUNTRIES;
 
-    tipoPro: tipoProducto[];
-    modelo: tipoProducto[];
+    tipoPro: TipoProducto[];
+    modelo: TipoProducto[];
     armadora: Armadora[];
     linea: Armadora[];
     categoria: Armadora[];

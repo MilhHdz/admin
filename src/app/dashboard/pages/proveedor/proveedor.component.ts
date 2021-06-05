@@ -59,7 +59,6 @@ export class ProveedorComponent {
         this.service.getAllProveedor().subscribe(
             res => {
                 this.proveedores = res;
-                console.log(this.proveedores);
 
                 this.proveedores$ = this.filter.valueChanges.pipe(
                     startWith(''),
