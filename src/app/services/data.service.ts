@@ -158,6 +158,6 @@ export class DataService {
     }
 
     deleteCliente(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/cliente  /' + id);
+        return this.http.delete('https://api-padd.herokuapp.com/cliente/' + id);
     }
 }

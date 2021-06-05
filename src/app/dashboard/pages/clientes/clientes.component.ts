@@ -75,7 +75,6 @@ export class ClientesComponent {
         this.service.getAllCliente().subscribe(
             res => {
                 this.clientes = res;
-                console.log(this.clientes);
 
                 this.clientes$ = this.filter.valueChanges.pipe(
                     startWith(''),
@@ -103,23 +102,18 @@ export class ClientesComponent {
 
                 this.SeewLoading('Eliminando');
 
-                for (const item of this.clientes) {
-                    if (item.id === id) {
-                        // Permite saber cual es la posicion del elemento en el array
-                        const i = this.clientes.indexOf(item);
-                        this.clientes.splice(i, 1); // Elimina el elemento elegido de la tabla clientes
-                        this.loadData(); // Actualizar los datos
-                        break;
+                this.service.deleteCliente(id).subscribe(
+                    res => {
+                        this.loadData();
+                        Swal.fire({
+                            title: 'Buen trabajo',
+                            text: 'Se ha eliminado con exito',
+                            icon: 'success',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                        });
                     }
-                }
-
-                Swal.fire({
-                    title: 'Buen trabajo',
-                    text: 'Se ha eliminado con exito',
-                    icon: 'success',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                });
+                );
             }
         });
     }

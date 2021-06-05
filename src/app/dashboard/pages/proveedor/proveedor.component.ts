@@ -34,7 +34,6 @@ export class ProveedorComponent {
 
     constructor(
         config: NgbModalConfig,
-        private modalService: NgbModal,
         public pipe: DecimalPipe,
         private iconLibraries: NbIconLibraries,
         private service: DataService,

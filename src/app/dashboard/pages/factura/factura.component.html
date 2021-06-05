@@ -1,1 +1,63 @@
-<p>factura works!</p>
+<nb-card>
+    <nb-card-header style="display: flex; justify-content: center;">
+
+        <div class="col-10 fontSize">Facturas</div>
+
+    </nb-card-header>
+</nb-card>
+
+<nb-card style="margin-top: -15px;">
+
+    <nb-card-body>
+
+        <div class="row">
+            <div class="table-responsive">
+
+                <div class="row">
+                    <div class="col-6">
+                        <form style="margin-top: 3px;">
+                            <div class="form-group form-inline">
+                                <input nbInput placeholder="Buscar" type="text" class="form-control ml-2" [formControl]="filter">
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-6">
+                        <form style="margin-top: 3px;" [formGroup]="facturaForm">
+                            <div class="form-group form-inline">
+                                <input nbInput placeholder="Agregar una factura" type="text" class="form-control" formControlName="folio_f">
+                            </div>
+                            <button [disabled]="facturaForm.invalid" nbButton hero status="success" size="small" (click)="saveNewFactura()">
+                                agregar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Folio</th>
+                            <th scope="col" class="widthCol"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let factura of this.facturas$ | async; index as i">
+                            <th scope="row">{{ i+1 }}</th>
+                            <td>{{factura.folio}}</td>
+                            <td class="botonesT">
+                                <button class="buttonBox" nbButton hero status="danger"
+                                    title="Eliminar" (click)="deleteFactura(factura.id)">
+                                    <nb-icon icon="trash" pack="fas"></nb-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
