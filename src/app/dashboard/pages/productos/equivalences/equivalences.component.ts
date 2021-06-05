@@ -71,7 +71,7 @@ export class EquivalencesComponent {
         this.dataService.getEquivalencias(this.dataService.parte).subscribe(
             res => {
                 this.equivalencias = res;
-            }
+            },
         );
         config.backdrop = 'static';
         config.keyboard = false;

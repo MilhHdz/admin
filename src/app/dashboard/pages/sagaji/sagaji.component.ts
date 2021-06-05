@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
-import { select2, select3, select4, producto, aplicaciones, equivalencias } from '../../../@core/data/sagaji';
-import { addPAD } from '../../../@core/data/productos';
+import { Select2, Select3, Select4, Producto, Aplicaciones, Equivalencias } from '../../../@core/data/sagaji';
+import { AddPAD } from '../../../@core/data/productos';
 import { DataService } from 'app/services/data.service';
 import { Observable } from 'rxjs';
 
@@ -19,19 +19,19 @@ export class SagajiComponent {
 
     // Sagaji
     opcion1: string[] = ['ArmadoraModeloDescripcion', 'LineaDescripcionModelo', 'DescripcionModeloLinea', 'ModeloDescripcionPeriodo'];
-    opcion2: select2[];
-    opcion3: select3[];
-    opcion4: select4[];
-    productos$: producto[];
+    opcion2: Select2[];
+    opcion3: Select3[];
+    opcion4: Select4[];
+    productos$: Producto[];
 
-    addprod: addPAD = {
+    addprod: AddPAD = {
         'nombre': '', 'unidadmedida': '', 'tipo': '',
         'linea': '', 'categoria': '', 'parte': '',
         'precio': '', 'uni_9na': '', 'uni_pan': '', 'uni_sup': '',
     };
 
-    app: aplicaciones[];
-    equi: equivalencias[];
+    app: Aplicaciones[];
+    equi: Equivalencias[];
     opciones: boolean = false;
 
 
@@ -120,7 +120,7 @@ export class SagajiComponent {
                         if (res.totalpaginas > 1) {
                             for (let i = 1; i < res.totalpaginas; i++) {
                                 this.service.url_busqueda = this.service.url_select4
-                                + '/' + this.clclave4 + '/' + i.toString();
+                                    + '/' + this.clclave4 + '/' + i.toString();
 
                                 this.service.getBusqueda().subscribe(
                                     res => {
@@ -130,8 +130,7 @@ export class SagajiComponent {
                             }
                         }
 
-                    }
-                    else this.registros = false;
+                    } else this.registros = false;
                 });
         }
     }
@@ -139,17 +138,17 @@ export class SagajiComponent {
 
     getDescription() {
         if (this.clclave1 === 'ArmadoraModeloDescripcion') {
-            for (var x of this.opcion4) {
-                if (x.clclave === this.clclave4) return x.descripcion
+            for (const x of this.opcion4) {
+                if (x.clclave === this.clclave4) return x.descripcion;
             }
         }
         if (this.clclave1 === 'LineaDescripcionModelo' || this.clclave1 === 'ModeloDescripcionPeriodo') {
-            for (var x of this.opcion3) {
+            for (const x of this.opcion3) {
                 if (x.clclave === this.clclave3) return x.descripcion;
             }
         }
         if (this.clclave1 === 'DescripcionModeloLinea') {
-            for (var x of this.opcion2) {
+            for (const x of this.opcion2) {
                 if (x.clclave === this.clclave2) return x.descripcion;
             }
         }
@@ -168,7 +167,7 @@ export class SagajiComponent {
         this.addprod.uni_pan = '3';
         this.addprod.uni_sup = '7';
         this.service.postProduct(this.addprod).subscribe(
-            res => { console.log(res); }
+            res => { console.log(res); },
         );
     }
 
@@ -179,15 +178,14 @@ export class SagajiComponent {
             this.service.getAplicaciones(element.clproducto).subscribe(
                 res => {
                     this.app = res;
-                }
+                },
             );
-        }
-        else {
+        } else {
             this.opciones = view;
             this.service.getEquivalencias(element.clproducto).subscribe(
                 res => {
                     this.equi = res;
-                }
+                },
             );
         }
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });

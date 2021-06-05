@@ -1,40 +1,40 @@
-export class select2 {
-    "clclave": string;
-    "descripcion": string;
+export class Select2 {
+    'clclave': string;
+    'descripcion': string;
 }
 
 
-export class select3 {
-    "clclave": string;
-    "descripcion": string;
+export class Select3 {
+    'clclave': string;
+    'descripcion': string;
 }
 
 
-export class select4 {
-    "clclave": string;
-    "descripcion": string;
+export class Select4 {
+    'clclave': string;
+    'descripcion': string;
 }
 
-export class producto {
-    "clfilial": string;
-    "clproducto": string;
-    "estatus_compra": string;
-    "dsproducto": string;
-    "unidadmedida": string;
-    "multiploventa": string;
-    "cveprodser": string;
-    "dslinea": string;
-    "dscategoria": string;
-    "preciocosto": string;
-    "preciocostoiva": string;
-    "preciopromocion": string;
-    "existencia": string;
-    "existencias": string;
-    "promocion": string;
-    "cldisponibilidad": string;
+export class Producto {
+    'clfilial': string;
+    'clproducto': string;
+    'estatus_compra': string;
+    'dsproducto': string;
+    'unidadmedida': string;
+    'multiploventa': string;
+    'cveprodser': string;
+    'dslinea': string;
+    'dscategoria': string;
+    'preciocosto': string;
+    'preciocostoiva': string;
+    'preciopromocion': string;
+    'existencia': string;
+    'existencias': string;
+    'promocion': string;
+    'cldisponibilidad': string;
 }
 
-export interface aplicaciones {
+export interface Aplicaciones {
     armadora: string;
     categoria: string;
     cdescripcion: string;
@@ -50,7 +50,7 @@ export interface aplicaciones {
     periodoi: string;
 }
 
-export interface equivalencias {
+export interface Equivalencias {
     clfilial: string;
     clproducto: string;
     clequivalente: string;

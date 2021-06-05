@@ -19,7 +19,7 @@ import { map, startWith } from 'rxjs/operators';
 export class ArmadorasComponent {
 
     armadoras: any;
-    saveArmadora: Armadora = {'nombre':''};
+    saveArmadora: Armadora = {'nombre': ''};
     optionModal: boolean = false;
 
     armadoras$: Observable<Armadora[]>;
@@ -70,7 +70,7 @@ export class ArmadorasComponent {
                     startWith(''),
                     map(text => this.search(text, this.pipe)),
                 );
-            }
+            },
         );
     }
 
@@ -119,13 +119,13 @@ export class ArmadorasComponent {
                             allowEscapeKey: false,
                             allowOutsideClick: false,
                         });
-                    }
+                    },
                 );
             }
         });
     }
 
-    
+
     SeewLoading(titulo) {
         Swal.fire({
             allowOutsideClick: false,
@@ -163,7 +163,7 @@ export class ArmadorasComponent {
                     // this.armadoras.push(this)
                     console.log(res);
                     this.loadData();
-                }
+                },
             );
             this.onResetForm();
             this.close();

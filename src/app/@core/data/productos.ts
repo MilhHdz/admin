@@ -71,7 +71,7 @@ export interface ProdPAD {
 }
 
 
-export interface addPAD {
+export interface AddPAD {
     nombre: string;
     unidadmedida: string;
     tipo: string;

@@ -1,4 +1,4 @@
-export interface tipoProducto {
+export interface TipoProducto {
     id?: string;
     clclave?: string;
     descripcion?: string;

@@ -81,7 +81,7 @@ export class ClientesComponent {
                     startWith(''),
                     map(text => this.search(text, this.pipe)),
                 );
-            }
+            },
         );
     }
 
@@ -105,7 +105,8 @@ export class ClientesComponent {
 
                 for (const item of this.clientes) {
                     if (item.id === id) {
-                        const i = this.clientes.indexOf(item); // Permite saber cual es la posicion del elemento en el array
+                        // Permite saber cual es la posicion del elemento en el array
+                        const i = this.clientes.indexOf(item);
                         this.clientes.splice(i, 1); // Elimina el elemento elegido de la tabla clientes
                         this.loadData(); // Actualizar los datos
                         break;
@@ -192,7 +193,7 @@ export class ClientesComponent {
                     res => {
                         console.log(res);
                         this.loadData();
-                    }
+                    },
                 );
             }
             this.onResetForm();

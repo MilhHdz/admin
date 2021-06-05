@@ -25,7 +25,7 @@ export class CategoriasComponent {
     categorias$: Observable<Categoria[]>;
     filter = new FormControl('');
 
-    saveCategory:Categoria = {"clave":'000000', "nombre":''};
+    saveCategory: Categoria = {'clave': '000000', 'nombre': ''};
 
     createFormGroup() {
         return new FormGroup({
@@ -64,9 +64,9 @@ export class CategoriasComponent {
         this.dataService.getAllCategories().subscribe(
             res => {
                 this.dataService.CATEGORIAS = res;
-            }
+            },
         );
-        
+
 
         this.categorias$ = this.filter.valueChanges.pipe(
             startWith(''),
@@ -94,7 +94,8 @@ export class CategoriasComponent {
 
                 for (const item of this.categorias) {
                     if (item.id === id) {
-                        const i = this.categorias.indexOf(item); // Permite saber cual es la posicion del elemento en el array
+                        // Permite saber cual es la posicion del elemento en el array
+                        const i = this.categorias.indexOf(item);
                         this.categorias.splice(i, 1); // Elimina el elemento elegido de la tabla categorias
                         this.loadData(); // Actualizar los datos
                         break;
@@ -103,7 +104,6 @@ export class CategoriasComponent {
 
                 this.dataService.deleteCategory(id).subscribe(
                     res => {
-                        console.log(res);
                         Swal.fire({
                             title: 'Buen trabajo',
                             text: 'Se ha eliminado con exito',
@@ -111,7 +111,7 @@ export class CategoriasComponent {
                             allowEscapeKey: false,
                             allowOutsideClick: false,
                         });
-                    }
+                    },
                 );
 
             }
@@ -163,7 +163,7 @@ export class CategoriasComponent {
                     this.categorias.push(this.saveCategory);
                     this.loadData();
                     console.log(res);
-                }
+                },
             );
             this.onResetForm();
             this.close();

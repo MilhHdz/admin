@@ -15,7 +15,7 @@ import {
     CATEGORIAS,
     LIENAS,
     ProdPAD,
-    addPAD,
+    AddPAD,
 } from '../../../@core/data/productos';
 import { tipoProducto } from '../../../@core/data/tipo-de-producto';
 import { Armadora } from '../../../@core/data/armadoras';
@@ -43,10 +43,10 @@ export class ProductosComponent {
     linea: Armadora[];
     categoria: Armadora[];
 
-    AddProduct: addPAD = {
+    AddProduct: AddPAD = {
         'nombre': '', 'unidadmedida': '', 'tipo': '',
         'linea': '', 'categoria': '', 'parte': '',
-        'precio': '', 'uni_9na': '', 'uni_pan': '', 'uni_sup': ''
+        'precio': '', 'uni_9na': '', 'uni_pan': '', 'uni_sup': '',
     };
 
     nombre: string;
@@ -110,14 +110,14 @@ export class ProductosComponent {
         this.dataService.getAllProducts().subscribe(
             res => {
                 this.con$ = res;
-            }
+            },
         );
     }
 
     cargarTipoProd(clclave) {
         this.dataService.url_select4 = this.dataService.url_select3 + '/' + clclave;
         this.dataService.getSelect4().subscribe(
-            res => { this.tipoPro = res; }
+            res => { this.tipoPro = res; },
         );
     }
 
@@ -128,17 +128,17 @@ export class ProductosComponent {
                 this.armadora = res;
                 this.modelo = [];
                 this.tipoPro = [];
-            }
+            },
         );
     }
 
     cargarModelos(clclave) {
         this.dataService.url_select3 = this.dataService.url_select2 + '/' + clclave;
         this.dataService.getSelect3().subscribe(
-            res => { 
-                this.modelo = res; 
+            res => {
+                this.modelo = res;
                 this.tipoPro = [];
-            }
+            },
         );
     }
 
@@ -147,7 +147,7 @@ export class ProductosComponent {
             res => {
                 this.categoria = res;
                 this.dataService.CATEGORIAS = res;
-            }
+            },
         );
     }
 
@@ -156,7 +156,7 @@ export class ProductosComponent {
             res => {
                 this.linea = res;
                 this.dataService.Lineas = res;
-            }
+            },
         );
     }
 
@@ -295,7 +295,7 @@ export class ProductosComponent {
             res => {
                 console.log(res);
                 this.loadData();
-            }
+            },
         );
     }
 

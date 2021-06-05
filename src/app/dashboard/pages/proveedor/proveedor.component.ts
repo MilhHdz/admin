@@ -65,7 +65,7 @@ export class ProveedorComponent {
                     startWith(''),
                     map(text => this.search(text, this.pipe)),
                 );
-            }
+            },
         );
     }
 
@@ -83,7 +83,7 @@ export class ProveedorComponent {
                 res => {
                     this.loadData();
                     this.proveedorForm.reset();
-                }
+                },
             );
         }
     }
@@ -115,7 +115,7 @@ export class ProveedorComponent {
                             allowEscapeKey: false,
                             allowOutsideClick: false,
                         });
-                    }
+                    },
                 );
             }
         });

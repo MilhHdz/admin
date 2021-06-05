@@ -69,7 +69,7 @@ export class AplicationsComponent {
         this.dataService.getAplicaciones(dataService.parte).subscribe(
             res => {
                 this.aplicaciones = res;
-            }
+            },
         );
 
         this.applicationForm = this.createFormGroup();

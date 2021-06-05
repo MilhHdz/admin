@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { DataService } from 'app/services/data.service';
-import { select2, select3, select4 } from '../../../@core/data/sagaji';
+import { Select2, Select3, Select4 } from '../../../@core/data/sagaji';
 
 @Component({
     selector: 'ngx-lineas',
@@ -25,13 +25,13 @@ export class LineasComponent {
 
     lineas$: Observable<Linea[]>;
     filter = new FormControl('');
-    saveLinea: Linea = {'nombre':''};
+    saveLinea: Linea = {'nombre': ''};
 
-    //Sagaji
-    opcion1: string[] = ["ArmadoraModeloDescripcion", "LineaDescripcionModelo", "DescripcionModeloLinea", "ModeloDescripcionPeriodo"];
-    opcion2: select2[];
-    opcion3: select3[];
-    opcion4: select4[];
+    // Sagaji
+    opcion1: string[] = ['ArmadoraModeloDescripcion', 'LineaDescripcionModelo', 'DescripcionModeloLinea', 'ModeloDescripcionPeriodo'];
+    opcion2: Select2[];
+    opcion3: Select3[];
+    opcion4: Select4[];
 
     // Descripcion
     dsproducto: string = '';
@@ -87,7 +87,7 @@ export class LineasComponent {
         this.service.getAllLine().subscribe(
             res => {
                 this.service.Lineas = res;
-            }
+            },
         );
 
         this.lineas$ = this.filter.valueChanges.pipe(
@@ -116,7 +116,8 @@ export class LineasComponent {
 
                 for (const item of this.lineas) {
                     if (item.id === id) {
-                        const i = this.lineas.indexOf(item); // Permite saber cual es la posicion del elemento en el array
+                        // Permite saber cual es la posicion del elemento en el array
+                        const i = this.lineas.indexOf(item);
                         this.lineas.splice(i, 1); // Elimina el elemento elegido de la tabla lineas
                         this.loadData(); // Actualizar los datos
                         break;
@@ -133,7 +134,7 @@ export class LineasComponent {
                             allowEscapeKey: false,
                             allowOutsideClick: false,
                         });
-                    }
+                    },
                 );
             }
         });
@@ -183,7 +184,7 @@ export class LineasComponent {
                     this.lineas.push(this.saveLinea);
                     this.loadData();
                     console.log(res);
-                }
+                },
             );
             // console.log('saved ', this.lineaForm.value);
             this.onResetForm();
@@ -199,8 +200,8 @@ export class LineasComponent {
         else {
           this.clclave1 = name;
           this.url_p = '/MVC?id=CategoriaProductos&tipo=' + name;
-          this.service.url_select2 = this.url_p;
-    
+          this.service.url_Select2 = this.url_p;
+
           this.service.getSelect2().subscribe(
             res => {
               this.opcion2 = res;
@@ -208,44 +209,44 @@ export class LineasComponent {
             });
         }
       }
-    
-    
+
+
       capOption2(clclave: string) {
         if (clclave === '0') this.opcion3 = [];
         else {
           this.clclave2 = clclave;
-          this.service.url_select3 = this.service.url_select2 + "&primera=" + clclave
-    
+          this.service.url_Select3 = this.service.url_Select2 + "&primera=" + clclave
+
           this.service.getSelect3().subscribe(
             res => {
               this.opcion3 = res;
             });
         }
       }
-    
-    
+
+
       capOption3(clclave: string) {
         if (clclave === '0') this.opcion4 = [];
         else {
           this.clclave3 = clclave;
-          this.service.url_select4 = this.service.url_select3 + "&segunda=" + clclave
-    
-    
+          this.service.url_Select4 = this.service.url_Select3 + "&segunda=" + clclave
+
+
           this.service.getSelect4().subscribe(
             res => {
               this.opcion4 = res;
             });
         }
       }
-    
+
       capOption4(clclave: string) {
         if (clclave === '0') console.log('Nada que mostrar');
         else {
           this.service.url_busqueda = "MVC?id=BusquedaProductosCategoria&tipo=" + this.clclave1
             + "&primera=" + this.clclave2 + "&segunda=" + this.clclave3 + "&tercera="
             + clclave + "&cuarta=&pagina=0";
-    
-    
+
+
           this.service.getBusqueda().subscribe(
             res => {
               console.log(res.productos);
