@@ -57,7 +57,7 @@ export interface Country {
 }
 
 export interface ProdPAD {
-    id?: number;
+    id?: string;
     nombre: string;
     unidadmedida: string;
     tipo: string;
@@ -68,6 +68,8 @@ export interface ProdPAD {
     uni_9na?: string;
     uni_pan?: string;
     uni_sup?: string;
+    proveedor?: string;
+    factura?: string;
 }
 
 
@@ -82,6 +84,8 @@ export interface AddPAD {
     uni_9na?: string;
     uni_pan?: string;
     uni_sup?: string;
+    proveedor?: string;
+    factura?: string;
 }
 
 

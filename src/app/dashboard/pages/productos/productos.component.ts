@@ -17,6 +17,8 @@ import {
     ProdPAD,
     AddPAD,
 } from '../../../@core/data/productos';
+import { Factura } from '../../../@core/data/Facturas';
+import { Proveedor } from '../../../@core/data/Proveedores';
 import { TipoProducto } from '../../../@core/data/tipo-de-producto';
 import { Armadora } from '../../../@core/data/armadoras';
 import { DataService } from 'app/services/data.service';
@@ -43,11 +45,17 @@ export class ProductosComponent {
     linea: Armadora[];
     categoria: Armadora[];
 
+    facturas: Factura[];
+    proveedores: Proveedor[];
+
     AddProduct: AddPAD = {
         'nombre': '', 'unidadmedida': '', 'tipo': '',
         'linea': '', 'categoria': '', 'parte': '',
         'precio': '', 'uni_9na': '', 'uni_pan': '', 'uni_sup': '',
+        'factura': '', 'proveedor': '',
     };
+
+    EditProduct: ProdPAD;
 
     nombre: string;
 
@@ -70,6 +78,8 @@ export class ProductosComponent {
             uni_pan_f: new FormControl('', Validators.required),
             uni_sup_f: new FormControl('', Validators.required),
             precio_f: new FormControl('', Validators.required),
+            proveedor_f: new FormControl(''),
+            factura_f: new FormControl(''),
         });
     }
 
@@ -160,6 +170,22 @@ export class ProductosComponent {
         );
     }
 
+    cargarFacturas() {
+        this.dataService.getAllFactura().subscribe(
+            res => {
+                this.facturas = res;
+            }
+        );
+    }
+
+    cargarProveedores() {
+        this.dataService.getAllProveedor().subscribe(
+            res => {
+                this.proveedores = res;
+            }
+        );
+    }
+
     search(text: string, pipe: PipeTransform): Country[] {
         return this.productos.filter(country => {
             const term = text.toLowerCase();
@@ -210,15 +236,14 @@ export class ProductosComponent {
                 this.dataService.deleteProduct(id).subscribe(
                     res => {
                         console.log(res);
+                        Swal.fire({
+                            title: 'Buen trabajo',
+                            text: 'Se ha eliminado con exito',
+                            icon: 'success',
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                        });
                     });
-
-                Swal.fire({
-                    title: 'Buen trabajo',
-                    text: 'Se ha eliminado con exito',
-                    icon: 'success',
-                    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                });
             }
         });
     }
@@ -236,18 +261,42 @@ export class ProductosComponent {
 
 
     // **** FUNCIONES AL FORMULARIO ****
-    open(content, option, producto: Country) {
+    open(content, option, producto: ProdPAD) {
         this.optionModal = option;
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
 
+        this.EditProduct = producto;
+        this.cargarFacturas();
+        this.cargarProveedores();
+
         if (option === false) {
-            this.nombre_f.setValue(producto.nombre);
-            this.parte_f.setValue(producto.parte);
             this.uni_9na_f.setValue(producto.uni_9na);
             this.uni_pan_f.setValue(producto.uni_pan);
             this.uni_sup_f.setValue(producto.uni_sup);
             this.precio_f.setValue(producto.precio);
+            this.uni_med.setValue(producto.unidadmedida);
+            this.proveedor_f.setValue(producto.proveedor);
+            this.factura_f.setValue(producto.factura);
         }
+    }
+
+
+    saveEdit() {
+        this.EditProduct.uni_9na = this.productForm.value['uni_9na_f'];
+        this.EditProduct.uni_pan = this.productForm.value['uni_pan_f'];
+        this.EditProduct.uni_sup = this.productForm.value['uni_sup_f'];
+        this.EditProduct.precio = this.productForm.value['precio_f'];
+        this.EditProduct.unidadmedida = this.productForm.value['uni_med'];
+        this.EditProduct.proveedor = this.productForm.value['proveedor_f'];
+        this.EditProduct.factura = this.productForm.value['factura_f'];
+
+        this.dataService.putProduct(this.EditProduct.id, this.EditProduct).subscribe(
+            res => {
+                console.log(res);
+                this.loadData();
+            }
+        );
+        this.close();
     }
 
 
@@ -287,6 +336,8 @@ export class ProductosComponent {
         this.AddProduct.uni_pan = this.productForm.value['uni_pan_f'];
         this.AddProduct.uni_sup = this.productForm.value['uni_sup_f'];
         this.AddProduct.categoria = this.productForm.value['cate_f'];
+        this.AddProduct.proveedor = this.productForm.value['proveedor_f'];
+        this.AddProduct.factura = this.productForm.value['factura_f'];
 
         console.log(this.AddProduct);
 
@@ -317,6 +368,8 @@ export class ProductosComponent {
     get tipo_f() { return this.productForm.get('tipo_f'); }
     get linea_f() { return this.productForm.get('linea_f'); }
     get cate_f() { return this.productForm.get('cate_f'); }
+    get proveedor_f() { return this.productForm.get('proveedor_f'); }
+    get factura_f() { return this.productForm.get('factura_f'); }
 
 
 }

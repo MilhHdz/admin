@@ -157,15 +157,15 @@ export class SagajiComponent {
 
     agregarProducto(pro) {
         this.addprod.nombre = pro.dsproducto;
-        this.addprod.unidadmedida = 'pieza';
+        this.addprod.unidadmedida = 'Piezas';
         this.addprod.tipo = this.getDescription();
         this.addprod.linea = pro.dslinea;
         this.addprod.categoria = pro.dscategoria;
         this.addprod.parte = pro.clproducto;
         this.addprod.precio = ((parseFloat(pro.preciocosto) / 0.80) * 1.16).toString();
-        this.addprod.uni_9na = '5';
-        this.addprod.uni_pan = '3';
-        this.addprod.uni_sup = '7';
+        this.addprod.uni_9na = '0';
+        this.addprod.uni_pan = '0';
+        this.addprod.uni_sup = '0';
         this.service.postProduct(this.addprod).subscribe(
             res => { console.log(res); },
         );

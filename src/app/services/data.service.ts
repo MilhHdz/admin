@@ -76,6 +76,10 @@ export class DataService {
     postProduct(prod: any): Observable<any> {
         return this.http.post('https://api-padd.herokuapp.com/product/', prod);
     }
+    
+    putProduct(id: string, prod: any) {
+        return this.http.put('https://api-padd.herokuapp.com/product/' + id, prod);
+    }
 
     deleteProduct(id: string): Observable<any> {
         return this.http.delete('https://api-padd.herokuapp.com/product/' + id);
