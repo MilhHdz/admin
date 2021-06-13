@@ -132,12 +132,26 @@
 
                     <div class="col-6">
                         <!-- status="danger" -->
-                        <label class="label">Nombre:</label>
+                        <!-- <label class="label">Nombre:</label>
                         <input *ngIf="!nombre_f.dirty || nombre_f.valid" nbInput class="form-control" type="text"
                             formControlName="nombre_f" placeholder="Ingrese el nombre del producto">
 
                         <div *ngIf="nombre_f.invalid && (nombre_f.dirty)">
                             <input nbInput class="form-control" type="text" status="danger"
+                                placeholder="Ingrese el nombre del producto">
+                            <div class="alert-danger">
+                                <div class="container-error-message">
+                                    El nombre es requerido
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <label class="label">Nombre</label>
+                        <input *ngIf="!nombre_f.dirty || nombre_f.valid" nbInput class="form-control" type="text"
+                            formControlName="nombre_f" placeholder="Ingrese el nombre del producto">
+
+                        <div *ngIf="nombre_f.invalid && (nombre_f.dirty)">
+                            <input nbInput class="form-control" type="text" status="danger" formControlName="nombre_f"
                                 placeholder="Ingrese el nombre del producto">
                             <div class="alert-danger">
                                 <div class="container-error-message">
@@ -263,6 +277,9 @@
                         <select class="form-control" type="text" formControlName="uni_med">
                             <option value="Piezas"> Piezas </option>
                             <option> Litros </option>
+                            <option> Kit </option>
+                            <option> Juego </option>
+                            <option> Metros </option>
                         </select>
                         <i></i>
                     </div>
