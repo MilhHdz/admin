@@ -146,6 +146,12 @@ img {
   margin-left: -1px;
 }
 
+.scrollXY {
+    overflow: scroll;
+    max-height: 350px;
+    width: auto;
+}
+
 @media screen and (max-width: 649px) {
   .posicion {
     margin-left: -60px;
