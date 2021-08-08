@@ -1,3 +1,19 @@
+export interface PRODUCTO {
+    id?: number;
+    nombre: string;
+    unidad_de_medida?: string;
+    tipo_de_producto?: string;
+    clave_sat?: string;
+    linea?: string;
+    categoria?: string;
+    parte?: string;
+    precio?: string;
+    cantidad?: string;
+    proveedor?: string;
+    factura?: string;
+}
+
+
 export abstract class ProductosData {
     abstract getData(): any[];
 }
@@ -70,6 +86,7 @@ export interface ProdPAD {
     uni_sup?: string;
     proveedor?: string;
     factura?: string;
+    clave_sat?: string;
 }
 
 

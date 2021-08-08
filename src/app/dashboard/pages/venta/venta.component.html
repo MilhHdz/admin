@@ -1,0 +1,176 @@
+<nb-card style="display: flex; justify-content: center;">
+    <nb-card-header class="col-10 fontSize">Ventas</nb-card-header>
+</nb-card>
+
+<nb-card style="margin-top: -15px;">
+    <nb-card-body>
+        <div class="row">
+            <div class="col-4">
+                <select type="text" class="form-control" (change)="obtenerProductosCotizados($event.target.value)">
+                    <option [value]="0">Seleccione un cliente</option>
+                    <option [value]="cli.id" *ngFor="let cli of cliente">{{cli.nombre}} {{cli.ape_pat}} {{cli.ape_mat}}
+                    </option>
+                </select>
+                <i></i>
+            </div>
+
+            <div class="col-3">
+                <select type="text" class="form-control" (change)="motrarProductosCotizados($event.target.value)">
+                    <option [value]="0">Elegir cotización</option>
+                    <option [value]="cot.id" *ngFor="let cot of cotizacion">{{cot.creado.split('T')[0]}} {{cot.creado.split('T')[1].slice(0,-5)}}</option>
+                </select>
+                <i></i>
+            </div>
+
+            <div class="col-3">
+                <select type="text" class="form-control">
+                    <option [value]="0">Seleccione un vendedor</option>
+                    <option [value]="ven.id" *ngFor="let ven of vendedor">{{ven.nombre}} {{ven.ape_pat}} {{ven.ape_mat}}
+                    </option>
+                </select>
+                <i></i>
+            </div>
+
+            <div class="col-2">
+                <button class="buttonBox" nbButton hero status="success" (click)="openModal(content)">Cobrar</button>
+            </div>
+        </div>
+
+        <div class="row">
+
+                <div class="col-5">
+                    <form style="margin-top: 10px;">
+                        <div class="form-group form-inline">
+                            <input type="text" class="form-control ml-2" placeholder="Buscar Producto" [formControl]="filter">
+                        </div>
+                    </form>
+                    <div class="tableFixHead">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>9 sur</th>
+                                    <th>Pan</th>
+                                    <th>Sup</th>
+                                    <th>Costo Uni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let pro of productos | async" (click)="poductoSeleccionado(pro)">
+                                    <td>{{pro.nombre}}</td>
+                                    <td>{{pro.uni_9na}}</td>
+                                    <td>{{pro.uni_pan}}</td>
+                                    <td>{{pro.uni_sup}}</td>
+                                    <td>{{pro.precio}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-7">
+                    <form style="margin-top: 10px;">
+                        <div class="form-group form-inline">
+                            <input name="descuento" type="number" min="0" class="form-control col-md-3" [ngModel]="descuento" (ngModelChange)="asignarCantidadDescuento($event)" placeholder="Descuento">
+                            <div class="col-2">
+                                <select type="text" class="form-control" (change)="asignarTipoDescuento($event.target.value)"> 
+                                    <option [value]="tp" *ngFor="let tp of tipoDeDescuento">{{tp}}</option>
+                                </select>
+                                <i></i>
+                            </div>
+                            <input type="text" class="form-control ml-2" value="Total: {{total_neto}}" readonly>
+                        </div>
+                    </form>
+                    <div class="tableFixHead">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>uni 9na</th>
+                                    <th>uni Sup</th>
+                                    <th>uni Pan</th>
+                                    <th>Solicitado</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Costo</th>
+                                    <!--th scope="col" class="widthCol"></th-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let pc of producto_a_vender">
+                                    <td>{{pc[2]}}</td>
+                                    <td>
+<!--input type="number" min="1" [ngModel]="producto_a_vender[pc[0]][5]" (ngModelChange)="multiplicarCantidadPrecio(pc[0],$event)" class="form-control" placeholder="Cantidad"-->
+                                        <input style="width: 50px" class="form-control" type="number" min="0" [ngModel]="producto_a_vender[pc[0]][3]" (ngModelChange)="multiplicarCantidadPrecio(pc[0], 3, $event)">
+                                    </td>
+                                    <td>
+                                        <input style="width: 50px" class="form-control" type="number" min="0" [ngModel]="producto_a_vender[pc[0]][4]" (ngModelChange)="multiplicarCantidadPrecio(pc[0], 4, $event)">
+                                    </td>
+                                    <td>
+                                        <input style="width: 50px" class="form-control" type="number" min="0" [ngModel]="producto_a_vender[pc[0]][5]" (ngModelChange)="multiplicarCantidadPrecio(pc[0], 5, $event)">
+                                    </td>
+                                    <td> {{pc[7]}} </td>
+                                    <td>
+                                        {{pc[6]}}
+                                        <!--input type="number" min="1" [ngModel]="producto_a_vender[pc[0]][5]" (ngModelChange)="multiplicarCantidadPrecio(pc[0],$event)" class="form-control" placeholder="Cantidad"-->
+                                    </td>
+                                    <td>{{pc[8]}}</td>
+                                    <td step=".01">{{pc[9]}}</td>
+                                    <!--td>
+                                        <button class="buttonBox" nbButton hero status="danger"
+                                        (click)="eleminarUnProducto(pc[0])"
+                                        title="Eliminar">
+                                        <nb-icon icon="trash" pack="fas"></nb-icon>
+                                    </button>
+                                    </td-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h6><label class="label">Metodo de Pago</label></h6>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col padre">
+                <button nbButton hero status="success" class="btnMar">Efectivo</button>
+                <button nbButton hero status="success" class="btnMar" (click)="closeModal(1)">Credito</button>
+                <button nbButton hero status="success" class="btnMar" (click)="closeModal(1)">Tarjeta de debito</button>
+                <button nbButton hero status="success" class="btnMar" (click)="closeModal(1)">Tarjeta de credito</button>
+            </div>
+            <div class="col">
+                
+                <label class="label">Total a pagar:</label>
+                <input type="text" class="form-control" value="{{total_neto}}" readonly>
+            
+            
+                <label class="label">Pago con:</label>
+                <input id="pago_con" [ngModel]="pago_con" (ngModelChange)="calcularCambio($event)" type="number" nbInput class="form-control">
+            
+            
+                <label class="label">Cambio:</label>
+                <input type="text" class="form-control" value="{{cambio}}" readonly>
+
+                <button nbButton hero status="info" size="small" style="margin-top:8px;" (click)="closeModal(1)">Guardar</button>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button nbButton outline (click)="closeModal(0)">Cancelar</button>
+    </div>
+
+</ng-template>
+
+
+

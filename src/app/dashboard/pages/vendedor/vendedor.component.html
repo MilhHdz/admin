@@ -1,0 +1,176 @@
+<nb-card>
+    <nb-card-header style="display: flex; justify-content: center;">
+
+        <div class="col-10 fontSize">Vendedores</div>
+        <div class="col-2">
+            <button class="posicion" nbButton hero status="info" size="small" (click)="open(content)">
+                agregar
+            </button>
+        </div>
+
+    </nb-card-header>
+</nb-card>
+
+<nb-card style="margin-top: -15px;">
+
+    <nb-card-body>
+
+        <div class="row">
+            <div class="table-responsive">
+                <form style="margin-top: 3px;">
+                    <div class="form-group form-inline">
+                        Buscar: <input nbInput class="form-control ml-2" type="text" [formControl]="filter" />
+                    </div>
+                </form>
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido paterno</th>
+                            <th scope="col">Apellido materno</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col" class="widthCol"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of this.vendedores$ | async; index as i">
+                            <th scope="row"> {{i + 1}} </th>
+                            <td> {{item.nombre}} </td>
+                            <td> {{item.ape_pat}} </td>
+                            <td> {{item.ape_mat}} </td>
+                            <td> {{item.correo}} </td>
+                            <td> {{item.telefono}} </td>
+                            <td class="botonesT">
+                                <button class="buttonBox" nbButton hero status="danger"
+                                    (click)="onRemoveItem(item.id)" title="Eliminar">
+                                    <nb-icon icon="trash" pack="fas"></nb-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </nb-card-body>
+
+</nb-card>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <nb-card-header class="modal-Title" *ngIf="this.optionModal">Agregar Cliente</nb-card-header>
+        <nb-card-header class="modal-Title" *ngIf="!this.optionModal">Editar Cliente</nb-card-header>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="vendedorForm">
+            <h6><label class="label">Datos Generales</label></h6>
+            <div class="row">
+                <div class="col-6">
+                    <label class="label">Nombre:</label>
+                    <input *ngIf="!nombre_f.dirty || nombre_f.valid" nbInput fullWidth class="form-control" type="text"
+                        placeholder="Ingrese nombre" formControlName="nombre_f">
+
+                    <div *ngIf="nombre_f.invalid && (nombre_f.dirty)">
+                        <input nbInput fullWidth class="form-control" type="text" status="danger"
+                            placeholder="Ingrese nombre" formControlName="nombre_f">
+
+                        <div class="alert-danger">
+                            <div class="container-error-message">
+                                Este campo es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label class="label">Apellido paterno:</label>
+                    <input *ngIf="!ape_pat_f.dirty || ape_pat_f.valid" nbInput fullWidth class="form-control"
+                        type="text" placeholder="Ingrese apellido paterno" formControlName="ape_pat_f">
+
+                    <div *ngIf="ape_pat_f.invalid && (ape_pat_f.dirty)">
+                        <input nbInput fullWidth class="form-control" type="text" placeholder="Ingrese apellido paterno"
+                            status="danger" formControlName="ape_pat_f">
+
+                        <div class="alert-danger">
+                            <div class="container-error-message">
+                                Este campo es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-6">
+                    <label class="label">Apellido materno:</label>
+                    <input *ngIf="!ape_mat_f.dirty || ape_mat_f.valid" nbInput fullWidth class="form-control"
+                        type="text" placeholder="Ingrese apellido materno" formControlName="ape_mat_f">
+
+
+                    <div *ngIf="ape_mat_f.invalid && (ape_mat_f.dirty)">
+                        <input nbInput fullWidth class="form-control" type="text" status="danger"
+                            placeholder="Ingrese apellido materno" formControlName="ape_mat_f">
+
+                        <div class="alert-danger">
+                            <div class="container-error-message">
+                                Este campo es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label class="label">Teléfono</label>
+                    <input *ngIf="!telefono.dirty || telefono.valid" nbInput fullWidth class="form-control" type="text"
+                        placeholder="Número de teléfono" formControlName="telefono">
+
+                    <div *ngIf="telefono.invalid && (telefono.dirty)">
+                        <input nbInput fullWidth class="form-control" type="text" status="danger"
+                            placeholder="Número de teléfono" formControlName="telefono">
+
+                        <div class="alert-danger">
+                            <div class="container-error-message">
+                                Este campo es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                    <label class="label">Correo electrónico</label>
+                    <input *ngIf="!correo_electronico.dirty || correo_electronico.valid" nbInput fullWidth
+                        class="form-control" type="text" placeholder="Correo electrónico"
+                        formControlName="correo_electronico">
+
+                    <div *ngIf="correo_electronico.invalid && (correo_electronico.dirty)">
+                        <input nbInput fullWidth class="form-control" type="text" status="danger"
+                            placeholder="Correo electrónico" formControlName="correo_electronico">
+
+                        <div class="alert-danger">
+                            <div class="container-error-message">
+                                Este campo es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button *ngIf="this.optionModal" nbButton hero status="success" [disabled]="vendedorForm.invalid"
+            (click)="onSeveForm()">Agregar</button>
+        <button *ngIf="!this.optionModal" nbButton hero status="success" [disabled]="vendedorForm.invalid"
+            (click)="onSeveForm()">Guardar</button>
+        <button nbButton outline style="margin-left: 15px;" (click)="close()">Cancelar</button>
+    </div>
+</ng-template>

@@ -3,7 +3,8 @@
 
         <div class="col-10 fontSize">Productos</div>
         <div class="col-2">
-            <button class="posicion" nbButton hero status="info" size="small" (click)="open(content, true, null)">
+            <!-- (click)="open(content, true, null)" -->
+            <button class="posicion" nbButton hero status="info" size="small">
                 agregar
             </button>
         </div>
@@ -12,11 +13,9 @@
 </nb-card>
 
 <nb-card style="margin-top: -15px;">
-
     <nb-card-body>
-
         <div class="row">
-            <div class="table-responsive">
+            <div class="table-responsive" *ngIf="producto_en_almacen">
                 <form style="margin-top: 3px;">
                     <div class="form-group form-inline">
                         <input nbInput class="form-control ml-2" placeholder="Buscar Producto" type="text" [formControl]="filter" />
@@ -28,307 +27,40 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <!-- <th scope="col">Imagen</th> -->
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Tipo de producto</th>
                                 <th scope="col">Linea</th>
                                 <th scope="col">Categoría</th>
                                 <th scope="col">#Parte</th>
                                 <th scope="col">Precio</th>
-                                <th scope="col">Uni. 9na sur</th>
-                                <th scope="col">Uni. panteón</th>
-                                <th scope="col">Uni. superior</th>
+                                <th scope="col">Cantidad</th>
                                 <th scope="col">Proveedor</th>
                                 <th scope="col">Factura</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
-    
+
                         <tbody>
-                            <tr *ngFor="let country of con$; index as i">
+                            <tr *ngFor="let producto of productos_a_mostrar | async; index as i">
                                 <th scope="row">{{i + 1}}</th>
-                                <!-- <td>
-                                    <img src="https://carplanet.mx/view/img/noticias/upload/-disco.png">
-                                </td> -->
-                                <td>{{country.nombre}}</td>
-                                <td>{{country.tipo}}</td>
-                                <td>{{country.linea}}</td>
-                                <td>{{country.categoria}}</td>
-                                <td>{{country.parte}}</td>
-                                <td>{{country.precio}}</td>
-                                <td>{{country.uni_9na}}</td>
-                                <td>{{country.uni_pan}}</td>
-                                <td>{{country.uni_sup}}</td>
-                                <td>{{country.proveedor}}</td>
-                                <td>{{country.factura}}</td>
-                                <td class="botonesT">
-                                    <button class="buttonBox" nbButton hero status="info"
-                                        [routerLink]="['/dashboard/productos/', country.id, 'applications']"
-                                        (click)="onSelect(country)" title="Ver Aplicaciones">
-                                        <nb-icon icon="car" pack="fas"></nb-icon>
-                                    </button>
-                                    <button class="buttonBox" nbButton hero status="info"
-                                        [routerLink]="['/dashboard/productos', country.id, 'equivalences']"
-                                        (click)="onSelectEquivalences(country)" title="Ver equivalencia">
-                                        <nb-icon icon="boxes" pack="fas"></nb-icon>
-                                    </button>
-                                    <button class="buttonBox" nbButton hero status="warning"
-                                        (click)="open(content, false, country)" title="Editar">
-                                        <nb-icon icon="edit" pack="fas"></nb-icon>
-                                    </button>
-                                    <button class="buttonBox" nbButton hero status="danger"
-                                        (click)="onRemoveItem(country.id)" title="Eliminar">
-                                        <nb-icon icon="trash" pack="fas"></nb-icon>
-                                    </button>
-                                </td>
+                                <td>{{producto.nombre}}</td>
+                                <td>{{producto.tipo_de_producto}}</td>
+                                <td>{{producto.linea}}</td>
+                                <td>{{producto.categoria}}</td>
+                                <td>{{producto.parte}}</td>
+                                <td>{{producto.precio}}</td>
+                                <td>{{producto.cantidad}}</td>
+                                <td>{{producto.proveedor}}</td>
+                                <td>{{producto.factura}}</td>
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
             </div>
+            <h3 *ngIf="!producto_en_almacen">
+                No hay productos registrados
+            </h3>
         </div>
-
     </nb-card-body>
-
 </nb-card>
-
-<ng-template #content let-c="close" let-d="dismiss">
-    <form [formGroup]="productForm" (ngSubmit)="onSeveForm()">
-        <nb-card>
-            <nb-card-header *ngIf="this.optionModal">Agregar Producto</nb-card-header>
-            <nb-card-header *ngIf="!this.optionModal">Editar Producto</nb-card-header>
-            <nb-card-body>
-
-                <div class="row" *ngIf="this.optionModal">
-                    <div class="col-6">
-                        <label class="label">Armadora:</label>
-                        <select class="form-control" type="text" (change)="cargarModelos($event.target.value)">
-                            <option [value]="0">Seleccione una opción</option>
-                            <option [value]="arm.clclave" *ngFor="let arm of armadora">{{arm.descripcion}}</option>
-                        </select>
-                        <i></i>
-                    </div>
-
-                    <div class="col-6">
-                        <label class="label">Modelo:</label>
-                        <select class="form-control" type="text" (change)="cargarTipoProd($event.target.value)">
-                            <option [value]="0">Seleccione una opción</option>
-                            <option [value]="mod.clclave" *ngFor="let mod of modelo">{{mod.descripcion}}</option>
-                        </select>
-                        <i></i>
-                    </div>
-                </div>
-
-                <div class="row" *ngIf="this.optionModal">
-
-                    <div class="col-6 content-select">
-                        <label class="label">Tipo de producto:</label>
-                        <select class="form-control" type="text" formControlName="tipo_f"
-                            (change)="selTip($event.target.value)">
-                            <option [value]="0">Seleccione una opción</option>
-                            <option [value]="tip.descripcion" *ngFor="let tip of tipoPro"> {{ tip.descripcion }}
-                            </option>
-                        </select>
-                        <i></i>
-                    </div>
-
-                    <div class="col-6">
-                        <!-- status="danger" -->
-                        <!-- <label class="label">Nombre:</label>
-                        <input *ngIf="!nombre_f.dirty || nombre_f.valid" nbInput class="form-control" type="text"
-                            formControlName="nombre_f" placeholder="Ingrese el nombre del producto">
-
-                        <div *ngIf="nombre_f.invalid && (nombre_f.dirty)">
-                            <input nbInput class="form-control" type="text" status="danger"
-                                placeholder="Ingrese el nombre del producto">
-                            <div class="alert-danger">
-                                <div class="container-error-message">
-                                    El nombre es requerido
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <label class="label">Nombre</label>
-                        <input *ngIf="!nombre_f.dirty || nombre_f.valid" nbInput class="form-control" type="text"
-                            formControlName="nombre_f" placeholder="Ingrese el nombre del producto">
-
-                        <div *ngIf="nombre_f.invalid && (nombre_f.dirty)">
-                            <input nbInput class="form-control" type="text" status="danger" formControlName="nombre_f"
-                                placeholder="Ingrese el nombre del producto">
-                            <div class="alert-danger">
-                                <div class="container-error-message">
-                                    El nombre es requerido
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="row" *ngIf="this.optionModal">
-                    <div class="col-6 content-select">
-                        <label class="label">Linea:</label>
-                        <select class="form-control" type="text" formControlName="linea_f"
-                            (change)="selTip($event.target.value)">
-                            <option [value]="lin.nombre" *ngFor="let lin of linea"> {{lin.nombre}} </option>
-                        </select>
-                        <i></i>
-                    </div>
-
-                    <div class="col-6 content-select">
-                        <label class="label">Categoría:</label>
-                        <select class="form-control" type="text" formControlName="cate_f"
-                            (change)="selTip($event.target.value)">
-                            <option [value]="cat.nombre" *ngFor="let cat of categoria"> {{cat.nombre}} </option>
-                        </select>
-                        <i></i>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6" *ngIf="this.optionModal">
-                        <label class="label">#parte:</label>
-                        <input *ngIf="!parte_f.dirty || parte_f.valid" nbInput class="form-control" type="text"
-                            formControlName="parte_f" placeholder="Ingrese #Parte">
-
-                        <div *ngIf="parte_f.invalid && (parte_f.dirty)">
-                            <input nbInput class="form-control" type="text" status="danger" formControlName="parte_f"
-                                placeholder="Ingrese #Parte">
-                            <div class="alert-danger">
-                                <div class="container-error-message">
-                                    El #parte es requerido
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <label class="label">Unidades 9na sur:</label>
-                        <input *ngIf="!uni_9na_f.dirty || uni_9na_f.valid" nbInput class="form-control" type="text"
-                            formControlName="uni_9na_f" placeholder="Ingrese Unidades 9na sur">
-
-                        <div *ngIf="uni_9na_f.invalid && (uni_9na_f.dirty)">
-                            <input nbInput class="form-control" type="text" status="danger" formControlName="uni_9na_f"
-                                placeholder="Ingrese Unidades 9na sur">
-                            <div class="alert-danger">
-                                <div class="container-error-message">
-                                    Las unidades son requeridas
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <label class="label">Unidades panteón:</label>
-                        <input *ngIf="!uni_pan_f.dirty || uni_pan_f.valid" nbInput class="form-control" type="text"
-                            formControlName="uni_pan_f" placeholder="Ingrese Unidades panteón">
-
-
-                        <div *ngIf="uni_pan_f.invalid && (uni_pan_f.dirty)">
-                            <input nbInput class="form-control" type="text" status="danger" formControlName="uni_pan_f"
-                                placeholder="Ingrese Unidades panteón">
-                            <div class="alert-danger">
-                                <div class="container-error-message">
-                                    Las unidades son requeridas
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <label class="label">Unidades superior:</label>
-                        <input *ngIf="!uni_sup_f.dirty || uni_sup_f.valid" nbInput class="form-control" type="text"
-                            formControlName="uni_sup_f" placeholder="Ingrese Unidades superior">
-
-
-                        <div *ngIf="uni_sup_f.invalid && (uni_sup_f.dirty)">
-                            <input nbInput class="form-control" type="text" status="danger" formControlName="uni_sup_f"
-                                placeholder="Ingrese Unidades superior">
-                            <div class="alert-danger">
-                                <div class="container-error-message">
-                                    Las unidades son requeridas
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <label class="label">Precio:</label>
-                        <input *ngIf="!precio_f.dirty || precio_f.valid" nbInput class="form-control" type="text"
-                            formControlName="precio_f" placeholder="Ingrese un precio">
-
-                        <div *ngIf="precio_f.invalid && (precio_f.dirty)">
-                            <input nbInput class="form-control" type="text" status="danger" formControlName="precio_f"
-                                placeholder="Ingrese un precio">
-                            <div class="alert-danger">
-                                <div class="container-error-message">
-                                    Este campo es requerido
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-6 content-select">
-                        <label class="label">Unidad de medida:</label>
-                        <select class="form-control" type="text" formControlName="uni_med">
-                            <option value="Piezas"> Piezas </option>
-                            <option> Litros </option>
-                            <option> Kit </option>
-                            <option> Juego </option>
-                            <option> Metros </option>
-                        </select>
-                        <i></i>
-                    </div>
-                </div>
-
-                <!-- <div class="row">
-                    <div class="col-12">
-                        <br>
-                        <label class="label">Imagen:</label>
-                        <input fullWidth nbInput type="file" />
-                    </div>
-                </div> -->
-                <!--select class="form-control" type="text" formControlName="cate_f"
-                            (change)="selTip($event.target.value)">
-                            <option [value]="cat.nombre" *ngFor="let cat of categoria"> {{cat.nombre}} </option>
-                        </select-->
-                <div class="row">
-                    <div class="col-6">
-                        <label class="label">Proveedor</label>
-                        <select class="form-control" type="text" formControlName="proveedor_f"
-                            (change)="selTip($event.target.value)">
-                            <option [value]="0">Seleccione una opción</option>
-                            <option [value]="prov.nombre" *ngFor="let prov of proveedores"> {{prov.nombre}} </option>
-                        </select>
-                        <i></i>
-                    </div>
-
-                    <div class="col-6">
-                        <label class="label">Factura</label>
-                        <select class="form-control" type="text" formControlName="factura_f"
-                            (change)="selTip($event.target.value)">
-                            <option [value]="0">Seleccione una opción</option>
-                            <option [value]="fac.folio" *ngFor="let fac of facturas"> {{fac.folio}} </option>
-                        </select>
-                        <i></i>
-                    </div>
-                </div>
-
-            </nb-card-body>
-
-            <nb-card-footer>
-                <button *ngIf="this.optionModal" nbButton hero status="success" [disabled]="productForm.invalid"
-                    type="submit">Agregar</button>
-                <button *ngIf="!this.optionModal" nbButton hero status="success" type="submit"
-                    (click)="saveEdit()">Guardar</button>
-                <button nbButton outline style="margin-left: 15px;" (click)="close()">Cancelar</button>
-            </nb-card-footer>
-        </nb-card>
-    </form>
-</ng-template>

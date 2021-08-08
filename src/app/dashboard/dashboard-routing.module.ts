@@ -14,6 +14,9 @@ import { EquivalencesComponent } from './pages/productos/equivalences/equivalenc
 import { AddEquivalencesComponent } from './pages/productos/equivalences/add-equivalences/add-equivalences.component';
 import { ProveedorComponent } from './pages/proveedor/proveedor.component';
 import { FacturaComponent } from './pages/factura/factura.component';
+import { CotizacionComponent } from './pages/cotizacion/cotizacion.component';
+import { VentaComponent } from './pages/venta/venta.component';
+import { VendedorComponent } from './pages/vendedor/vendedor.component';
 
 const routes: Routes = [{
   path: '',
@@ -62,6 +65,18 @@ const routes: Routes = [{
     {
         path: 'facturas',
         component: FacturaComponent,
+    },
+    {
+        path: 'cotizacion',
+        component: CotizacionComponent,
+    },
+    {
+        path: 'ventas',
+        component: VentaComponent,
+    },
+    {
+        path: 'vendedor',
+        component: VendedorComponent,
     },
     {
       path: '',

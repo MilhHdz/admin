@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
 import { Select2, Select3, Select4, Producto, Aplicaciones, Equivalencias } from '../../../@core/data/sagaji';
-import { AddPAD } from '../../../@core/data/productos';
+import { PRODUCTO } from '../../../@core/data/productos';
 import { DataService } from 'app/services/data.service';
 import { Observable } from 'rxjs';
 
@@ -24,10 +24,18 @@ export class SagajiComponent {
     opcion4: Select4[];
     productos$: Producto[];
 
-    addprod: AddPAD = {
-        'nombre': '', 'unidadmedida': '', 'tipo': '',
-        'linea': '', 'categoria': '', 'parte': '',
-        'precio': '', 'uni_9na': '', 'uni_pan': '', 'uni_sup': '',
+    addprod: PRODUCTO = {
+        'nombre': '',
+        'unidad_de_medida': 'NO HAY REFERENCIA',
+        'tipo_de_producto': '',
+        'clave_sat': '',
+        'linea': '',
+        'categoria': '',
+        'parte': '',
+        'precio': '',
+        'cantidad': '',
+        'proveedor': 'NO HAY REFERENCIA',
+        'factura': 'NO HAY REFERENCIA'
     };
 
     app: Aplicaciones[];
@@ -64,7 +72,7 @@ export class SagajiComponent {
         if (name === '0') this.opcion2 = [];
         else {
             this.clclave1 = name;
-            this.url_p = 'https://api-padd.herokuapp.com/sagaji/' + name;
+            this.url_p = this.service.url_host_dev + 'sagaji/' + name;
             this.service.url_select2 = this.url_p;
 
             this.service.getSelect2().subscribe(
@@ -157,15 +165,13 @@ export class SagajiComponent {
 
     agregarProducto(pro) {
         this.addprod.nombre = pro.dsproducto;
-        this.addprod.unidadmedida = 'Piezas';
-        this.addprod.tipo = this.getDescription();
+        this.addprod.tipo_de_producto = this.getDescription();
+        this.addprod.clave_sat = pro.cveprodser;
         this.addprod.linea = pro.dslinea;
         this.addprod.categoria = pro.dscategoria;
         this.addprod.parte = pro.clproducto;
-        this.addprod.precio = ((parseFloat(pro.preciocosto) / 0.80) * 1.16).toString();
-        this.addprod.uni_9na = '0';
-        this.addprod.uni_pan = '0';
-        this.addprod.uni_sup = '0';
+        this.addprod.precio = ((parseFloat(pro.preciocosto) / 0.80) * 1.16).toFixed(2);
+        this.addprod.cantidad = '1';
         this.service.postProduct(this.addprod).subscribe(
             res => { console.log(res); },
         );

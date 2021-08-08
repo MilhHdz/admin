@@ -13,6 +13,9 @@ import { SagajiComponent } from './sagaji/sagaji.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import { FacturaComponent } from './factura/factura.component';
 import { AddEquivalencesComponent } from './productos/equivalences/add-equivalences/add-equivalences.component';
+import { CotizacionComponent } from './cotizacion/cotizacion.component';
+import { VentaComponent } from './venta/venta.component';
+import { VendedorComponent } from './vendedor/vendedor.component';
 
 const routes: Routes = [{
   path: '',
@@ -63,6 +66,18 @@ const routes: Routes = [{
         component: FacturaComponent,
     },
     {
+        path: 'cotizacion',
+        component: CotizacionComponent,
+    },
+    {
+        path: 'ventas',
+        component: VentaComponent,
+    },
+    {
+        path: 'vendedor',
+        component: VendedorComponent,
+    },
+    {
       path: '',
       redirectTo: 'productos',
       pathMatch: 'full',
@@ -87,6 +102,7 @@ export const routedComponents = [
   SagajiComponent,
   ProveedorComponent,
   FacturaComponent,
+  VendedorComponent,
   EquivalencesComponent,
   AddEquivalencesComponent,
 ];

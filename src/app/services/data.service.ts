@@ -13,6 +13,9 @@ import { Equivalencia } from './../@core/data/equivalencias';
 export class DataService {
 
     nombreProducto: string = 'Sin nombre...';
+    sucursal: string = '1';
+    url_host_dev: string = 'http://localhost:3050/'
+    url_host_pro: string = 'https://api-padd.herokuapp.com/'
 
     test: Aplication[];
     CATEGORIAS: Categoria[];
@@ -54,12 +57,12 @@ export class DataService {
 
 
     getEquivalencias(clproducto: string): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/equivalentes/' + clproducto);
+        return this.http.get<any>(this.url_host_pro + 'equivalentes/' + clproducto);
     }
 
 
     getAplicaciones(clproducto: string): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/aplicaciones/' + clproducto);
+        return this.http.get<any>(this.url_host_pro + 'aplicaciones/' + clproducto);
     }
 
 
@@ -70,98 +73,130 @@ export class DataService {
 
     // Obtener a todos los productos
     getAllProducts(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/product/');
+        return this.http.get<any>(this.url_host_dev + 'product/' + this.sucursal);
     }
 
     postProduct(prod: any): Observable<any> {
-        return this.http.post('https://api-padd.herokuapp.com/product/', prod);
+        return this.http.post(this.url_host_dev + 'product/' + this.sucursal, prod);
     }
     
     putProduct(id: string, prod: any) {
-        return this.http.put('https://api-padd.herokuapp.com/product/' + id, prod);
+        return this.http.put(this.url_host_pro + 'product/' + id, prod);
     }
 
     deleteProduct(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/product/' + id);
+        return this.http.delete(this.url_host_pro + 'product/' + id);
     }
 
     getAllCategories(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/category/');
+        return this.http.get<any>(this.url_host_pro + 'category/');
     }
 
     postCategry(cad: any): Observable<any> {
-        return this.http.post('https://api-padd.herokuapp.com/category/', cad);
+        return this.http.post(this.url_host_pro + 'category/', cad);
     }
 
     deleteCategory(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/category/' + id);
+        return this.http.delete(this.url_host_pro + 'category/' + id);
     }
 
     getAllModels(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/modelo/');
+        return this.http.get<any>(this.url_host_pro + 'modelo/');
     }
 
     getAllDrescription(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/descripcion/');
+        return this.http.get<any>(this.url_host_pro + 'descripcion/');
     }
 
     getAllArmadora(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/armadora/');
+        return this.http.get<any>(this.url_host_pro + 'armadora/');
     }
 
     postArmadora(arm: any): Observable<any> {
-        return this.http.post('https://api-padd.herokuapp.com/armadora/', arm);
+        return this.http.post(this.url_host_pro + 'armadora/', arm);
     }
 
     deleteArmadora(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/armadora/' + id);
+        return this.http.delete(this.url_host_pro + 'armadora/' + id);
     }
 
     getAllLine(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/linea/');
+        return this.http.get<any>(this.url_host_pro + 'linea/');
     }
 
     postLine(lin: any): Observable<any> {
-        return this.http.post('https://api-padd.herokuapp.com/linea/', lin);
+        return this.http.post(this.url_host_pro + 'linea/', lin);
     }
 
     deleteLine(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/linea/' + id);
+        return this.http.delete(this.url_host_pro + 'linea/' + id);
     }
 
     getAllProveedor(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/proveedor/');
+        return this.http.get<any>(this.url_host_pro + 'proveedor/');
     }
 
     postProveedor(prov: any): Observable<any> {
-        return this.http.post('https://api-padd.herokuapp.com/proveedor/', prov);
+        return this.http.post(this.url_host_pro + 'proveedor/', prov);
     }
 
     deleteProveedor(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/proveedor/' + id);
+        return this.http.delete(this.url_host_pro + 'proveedor/' + id);
     }
 
     getAllFactura(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/factura/');
+        return this.http.get<any>(this.url_host_pro + 'factura/');
     }
 
     postFactura(fact: any): Observable<any> {
-        return this.http.post('https://api-padd.herokuapp.com/factura/', fact);
+        return this.http.post(this.url_host_pro + 'factura/', fact);
     }
 
     deleteFactura(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/factura/' + id);
+        return this.http.delete(this.url_host_pro + 'factura/' + id);
     }
 
     getAllCliente(): Observable<any> {
-        return this.http.get<any>('https://api-padd.herokuapp.com/cliente/');
+        return this.http.get<any>(this.url_host_pro + 'cliente/');
     }
 
     postCliente(clie: any): Observable<any> {
-        return this.http.post('https://api-padd.herokuapp.com/cliente/', clie);
+        return this.http.post(this.url_host_pro + 'cliente/', clie);
     }
 
     deleteCliente(id: string): Observable<any> {
-        return this.http.delete('https://api-padd.herokuapp.com/cliente/' + id);
+        return this.http.delete(this.url_host_pro + 'cliente/' + id);
+    }
+
+    getAllVendedor(): Observable<any> {
+        return this.http.get<any>(this.url_host_pro + 'vendedor/');
+    }
+
+    deleteVendedor(id: string): Observable<any> {
+        return this.http.delete(this.url_host_pro + 'vendedor/' + id);
+    }
+
+    getAllCotizacion(): Observable<any> {
+        return this.http.get<any>(this.url_host_pro + 'cotizacion/');
+    }
+
+    getAllCotizacionByIdCliente(id: string): Observable<any> {
+        return this.http.get<any>(this.url_host_pro + 'cotizacion/cliente/' + id);
+    }
+
+    CreateCotizacion(cot: any): Observable<any> {
+        return this.http.post(this.url_host_pro + 'cotizacion/', cot);
+    }
+
+    getAllProductoCotizado(): Observable<any> {
+        return this.http.get<any>(this.url_host_pro + 'producto-cotizado/');
+    }
+
+    getAllProductoCotizadoByIdCotizacion(id): Observable<any> {
+        return this.http.get<any>(this.url_host_pro + 'producto-cotizado/cotizacion/' + id);
+    }
+
+    createProductoCotizado(proCot: any): Observable<any> {
+        return this.http.post(this.url_host_pro + 'producto-cotizado', proCot);
     }
 }

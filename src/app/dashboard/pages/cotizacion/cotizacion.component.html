@@ -1,0 +1,111 @@
+<nb-card style="display: flex; justify-content: center;">
+    <nb-card-header class="col-10 fontSize">Cotizaciones</nb-card-header>
+</nb-card>
+
+<nb-card style="margin-top: -15px;">
+    <nb-card-body>
+        <div class="row">
+            <div class="col-5">
+                <!-- <label class="label">Clientes</label> -->
+                <select type="text" class="form-control" (change)="setIdCliente($event.target.value)">
+                    <option [value]="0">Seleccione un cliente</option>
+                    <option [value]="cli.id" *ngFor="let cli of cliente">{{cli.nombre}} {{cli.ape_pat}} {{cli.ape_mat}}
+                    </option>
+                </select>
+                <i></i>
+            </div>
+
+            <div class="col-4">
+                <!-- <label class="label">Clientes</label> -->
+                <select type="text" class="form-control" (change)="setIdTrabajador($event.target.value)">
+                    <option [value]="0">Seleccione un vendedor</option>
+                    <option [value]="ven.id" *ngFor="let ven of vendedor">{{ven.nombre}} {{ven.ape_pat}} {{ven.ape_mat}}
+                    </option>
+                </select>
+                <i></i>
+            </div>
+
+            <div class="col-3">
+                <button class="buttonBox" nbButton hero status="info" (click)="guardarCotizacion()">Guardar</button>
+            </div>
+        </div>
+
+        <div class="row">
+
+                <div class="col-5">
+                    <form style="margin-top: 10px;">
+                        <div class="form-group form-inline">
+                            <input type="text" class="form-control ml-2" placeholder="Buscar Producto" [formControl]="filter">
+                        </div>
+                    </form>
+                    <div class="tableFixHead">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>9 sur</th>
+                                    <th>Pan</th>
+                                    <th>Sup</th>
+                                    <th>Costo Uni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let pro of productos | async" (click)="poductoSeleccionado(pro)">
+                                    <td>{{pro.nombre}}</td>
+                                    <td>{{pro.uni_9na}}</td>
+                                    <td>{{pro.uni_pan}}</td>
+                                    <td>{{pro.uni_sup}}</td>
+                                    <td>{{pro.precio}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-7">
+                    <form style="margin-top: 10px;">
+                        <div class="form-group form-inline">
+                            <input name="descuento" type="number" min="0" class="form-control col-md-3" [ngModel]="descuento" (ngModelChange)="asignarCantidadDescuento($event)" placeholder="Descuento">
+                            <div class="col-2">
+                                <select type="text" class="form-control" (change)="asignarTipoDescuento($event.target.value)"> 
+                                    <option [value]="tp" *ngFor="let tp of tipoDeDescuento">{{tp}}</option>
+                                </select>
+                                <i></i>
+                            </div>
+                            <input type="text" class="form-control ml-2" value="Total: {{total_neto}}" readonly>
+                        </div>
+                    </form>
+                    <div class="tableFixHead">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Costo Con</th>
+                                    <th scope="col" class="widthCol"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let pc of productos_Cotizados">
+                                    <td>{{pc[3]}}</td>
+                                    <td>
+                                        <input type="number" min="1" [ngModel]="productos_Cotizados[pc[0]][5]" (ngModelChange)="multiplicarCantidadPrecio(pc[0],$event)" class="form-control" placeholder="Cantidad">
+                                    </td>
+                                    <td>{{pc[4]}}</td>
+                                    <td step=".01">{{pc[4] * pc[5]}}</td>
+                                    <td>
+                                        <button class="buttonBox" nbButton hero status="danger"
+                                        (click)="eleminarUnProducto(pc[0])"
+                                        title="Eliminar">
+                                        <nb-icon icon="trash" pack="fas"></nb-icon>
+                                    </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </nb-card-body>
+</nb-card>
