@@ -149,11 +149,11 @@ export class DataService {
     }
 
     postFactura(fact: any): Observable<any> {
-        return this.http.post(this.url_host_pro + 'factura/', fact);
+        return this.http.post(this.url_host_dev + 'factura/' + this.sucursal, fact);
     }
 
     deleteFactura(id: string): Observable<any> {
-        return this.http.delete(this.url_host_pro + 'factura/' + id);
+        return this.http.delete(this.url_host_dev + 'factura/' + this.sucursal+ '/' + id);
     }
 
     getAllCliente(): Observable<any> {

@@ -11,7 +11,7 @@
     <nb-card-body>
 
         <div class="row">
-            <div class="table-responsive">
+            <div class="table-responsive" *ngIf="facturas">
 
                 <div class="row">
                     <div class="col-6">
@@ -58,6 +58,9 @@
                     </tbody>
                 </table>
             </div>
+            <h3 *ngIf="!facturas">
+                No hay facturas registradas
+            </h3>
         </div>
     </nb-card-body>
 </nb-card>

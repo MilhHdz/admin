@@ -55,6 +55,7 @@ export class ProveedorComponent {
 
     // ***** Parte logica *****
     loadData() {
+        this.proveedores = [];
         this.service.getAllProveedor().subscribe(
             res => {
                 if (res.code === 200) {

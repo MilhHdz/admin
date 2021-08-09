@@ -47,14 +47,17 @@ export class FacturaComponent {
 
     // ***** Parte logica *****
     loadData() {
+        this.facturas = [];
         this.service.getAllFactura().subscribe(
             res => {
-                this.facturas = res;
+                if (res.code === 200) {
+                    this.facturas = res.result;
 
-                this.facturas$ = this.filter.valueChanges.pipe(
-                    startWith(''),
-                    map(text => this.search(text, this.pipe)),
-                );
+                    this.facturas$ = this.filter.valueChanges.pipe(
+                        startWith(''),
+                        map(text => this.search(text, this.pipe)),
+                    );   
+                }
             }
         );
     }
@@ -68,11 +71,16 @@ export class FacturaComponent {
 
     saveNewFactura() {
         if (this.facturaForm.valid) {
+            this.alertaInicial('Agregando una nueva factura');
             this.saveFactura.folio = this.facturaForm.value['folio_f'];
             this.service.postFactura(this.saveFactura).subscribe(
                 res => {
-                    this.loadData();
-                    this.facturaForm.reset();
+                    if (res.code === 200) {
+                        this.loadData();
+                        this.facturaForm.reset();
+                        this.alertaFinal('Buen trabajo', 'Se ha agregado una nueva factura', 'success');
+                    }
+                    else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');
                 }
             );
         }
@@ -93,18 +101,15 @@ export class FacturaComponent {
             allowOutsideClick: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                this.SeewLoading('Eliminando');
+                this.alertaInicial('Eliminando');
 
                 this.service.deleteFactura(id).subscribe(
                     res => {
-                        this.loadData();
-                        Swal.fire({
-                            title: 'Buen trabajo',
-                            text: 'Se ha eliminado con exito ',
-                            icon: 'success',
-                            allowEscapeKey: false,
-                            allowOutsideClick: false,
-                        });
+                        if (res.code === 200) {
+                            this.loadData();
+                            this.alertaFinal('Buen trabajo', 'Se ha eliminado con exito', 'success');
+                        }
+                        else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');
                     }
                 );
             }
@@ -112,8 +117,8 @@ export class FacturaComponent {
     }
 
 
-    // ***** Parte logica *****
-    SeewLoading(titulo) {
+    // ***** ALERTS *****
+    alertaInicial(titulo) {
         Swal.fire({
             allowOutsideClick: false,
             icon: 'info',
@@ -121,6 +126,16 @@ export class FacturaComponent {
             text: 'Espere un momento por favor...',
         });
         Swal.showLoading();
+    }
+
+    alertaFinal(title, text, icon) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+        });
     }
 
     get folio_f() { return this.facturaForm.get('folio_f'); }
