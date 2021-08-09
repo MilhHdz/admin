@@ -20,7 +20,7 @@ import { Select2, Select3, Select4 } from '../../../@core/data/sagaji';
 })
 export class LineasComponent {
 
-    lineas: any;
+    lineas: Linea[];
     optionModal: boolean = false;
 
     lineas$: Observable<Linea[]>;
@@ -84,15 +84,17 @@ export class LineasComponent {
 
 
     loadData() {
+        this.lineas = [];
         this.service.getAllLine().subscribe(
             res => {
-                this.service.Lineas = res;
+                if (res.code === 200){
+                    this.lineas = res.result;
+                    this.lineas$ = this.filter.valueChanges.pipe(
+                        startWith(''),
+                        map(text => this.search(text, this.pipe)),
+                    );
+                }
             },
-        );
-
-        this.lineas$ = this.filter.valueChanges.pipe(
-            startWith(''),
-            map(text => this.search(text, this.pipe)),
         );
     }
 

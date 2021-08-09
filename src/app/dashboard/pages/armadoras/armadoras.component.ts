@@ -61,15 +61,17 @@ export class ArmadorasComponent {
 
 
     loadData() {
-
+        this.armadoras = [];
         this.service.getAllArmadora().subscribe(
             res => {
-                this.armadoras = res;
+                if (res.code === 200) {
+                    this.armadoras = res.result;
 
-                this.armadoras$ = this.filter.valueChanges.pipe(
-                    startWith(''),
-                    map(text => this.search(text, this.pipe)),
-                );
+                    this.armadoras$ = this.filter.valueChanges.pipe(
+                        startWith(''),
+                        map(text => this.search(text, this.pipe)),
+                    );
+                }
             },
         );
     }

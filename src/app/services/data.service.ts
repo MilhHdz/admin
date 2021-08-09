@@ -109,7 +109,7 @@ export class DataService {
     }
 
     getAllArmadora(): Observable<any> {
-        return this.http.get<any>(this.url_host_pro + 'armadora/');
+        return this.http.get<any>(this.url_host_dev + 'armadora/');
     }
 
     postArmadora(arm: any): Observable<any> {
@@ -121,7 +121,7 @@ export class DataService {
     }
 
     getAllLine(): Observable<any> {
-        return this.http.get<any>(this.url_host_pro + 'linea/');
+        return this.http.get<any>(this.url_host_dev + 'linea/');
     }
 
     postLine(lin: any): Observable<any> {
@@ -141,7 +141,7 @@ export class DataService {
     }
 
     deleteProveedor(id: string): Observable<any> {
-        return this.http.delete(this.url_host_pro + 'proveedor/' + id);
+        return this.http.delete(this.url_host_dev + 'proveedor/' + this.sucursal + '/' + id);
     }
 
     getAllFactura(): Observable<any> {

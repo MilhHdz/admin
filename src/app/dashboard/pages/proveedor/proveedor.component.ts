@@ -57,12 +57,14 @@ export class ProveedorComponent {
     loadData() {
         this.service.getAllProveedor().subscribe(
             res => {
-                this.proveedores = res;
+                if (res.code === 200) {
+                    this.proveedores = res.result;
 
-                this.proveedores$ = this.filter.valueChanges.pipe(
-                    startWith(''),
-                    map(text => this.search(text, this.pipe)),
-                );
+                    this.proveedores$ = this.filter.valueChanges.pipe(
+                        startWith(''),
+                        map(text => this.search(text, this.pipe)),
+                    );
+                }
             },
         );
     }
@@ -76,11 +78,16 @@ export class ProveedorComponent {
 
     saveNewProveedor() {
         if (this.proveedorForm.valid) {
+            this.alertaInicial('Agregando un nuevo proveedor');
             this.saveProveedor.nombre = this.proveedorForm.value['nombre_f'];
             this.service.postProveedor(this.saveProveedor).subscribe(
                 res => {
-                    this.loadData();
-                    this.proveedorForm.reset();
+                    if (res.code === 200) {
+                        this.loadData();
+                        this.proveedorForm.reset();
+                        this.alertaFinal('Buen trabajo', 'Se ha agregado un nuevo proveedor', 'success');
+                    }
+                    else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');
                 },
             );
         }
@@ -101,26 +108,23 @@ export class ProveedorComponent {
             allowOutsideClick: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                this.SeewLoading('Eliminando');
+                this.alertaInicial('Eliminando');
 
                 this.service.deleteProveedor(id).subscribe(
                     res => {
-                        this.loadData();
-                        Swal.fire({
-                            title: 'Buen trabajo',
-                            text: 'Se ha eliminado con exito ',
-                            icon: 'success',
-                            allowEscapeKey: false,
-                            allowOutsideClick: false,
-                        });
+                        if (res.code === 200){
+                            this.loadData();
+                            this.alertaFinal('Buen trabajo', 'Se ha eliminado con exito', 'success');
+                        }
+                        else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');
                     },
                 );
             }
         });
     }
 
-    // ***** Parte Interfas *****
-    SeewLoading(titulo) {
+    // ALERTAS 
+    alertaInicial(titulo) {
         Swal.fire({
             allowOutsideClick: false,
             icon: 'info',
@@ -128,6 +132,16 @@ export class ProveedorComponent {
             text: 'Espere un momento por favor...',
         });
         Swal.showLoading();
+    }
+
+    alertaFinal(title, text, icon) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+        });
     }
 
 

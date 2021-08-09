@@ -2,12 +2,12 @@
     <nb-card-header style="display: flex; justify-content: center;">
 
         <div class="col-10 fontSize">Armadoras</div>
-        <div class="col-2">
+        <!-- <div class="col-2">
             <button class="posicion" nbButton hero status="info" size="small"
                 (click)="open(content, true, null)">
                 agregar
             </button>
-        </div>
+        </div> -->
 
     </nb-card-header>
 </nb-card>
@@ -29,7 +29,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col" class="widthCol">Acciones</th>
+                            <!-- <th scope="col" class="widthCol">Acciones</th> -->
                         </tr>
                     </thead>
 
@@ -37,16 +37,12 @@
                         <tr *ngFor="let info of this.armadoras$ | async; index as i">
                             <th scope="row"> {{i + 1}} </th>
                             <td> {{info.nombre}} </td>
-                            <td class="botonesT">
-                                <!-- <button class="buttonBox" nbButton hero status="warning"
-                                    (click)="open(content, false, info.nombre)" title="Editar">
-                                    <nb-icon icon="edit" pack="fas"></nb-icon>
-                                </button> -->
+                            <!-- <td class="botonesT">
                                 <button class="buttonBox" nbButton hero status="danger" (click)="onRemoveItem(info.id)"
                                     title="Eliminar">
                                     <nb-icon icon="trash" pack="fas"></nb-icon>
                                 </button>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
 
