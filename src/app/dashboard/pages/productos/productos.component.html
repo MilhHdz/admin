@@ -4,7 +4,7 @@
         <div class="col-10 fontSize">Productos</div>
         <div class="col-2">
             <!-- (click)="open(content, true, null)" -->
-            <button class="posicion" nbButton hero status="info" size="small">
+            <button class="posicion" nbButton hero status="info" size="small" (click)="abrirModal(content, true, null)">
                 agregar
             </button>
         </div>
@@ -52,6 +52,26 @@
                                 <td>{{producto.cantidad}}</td>
                                 <td>{{producto.proveedor}}</td>
                                 <td>{{producto.factura}}</td>
+                                <td class="botonesT">
+                                    <button class="buttonBox" nbButton hero status="info"
+                                        [routerLink]="['/dashboard/productos/', producto.id, 'applications']"
+                                        (click)="asignarInformaionDeProducto(producto)" title="Ver Aplicaciones">
+                                        <nb-icon icon="car" pack="fas"></nb-icon>
+                                    </button>
+                                    <button class="buttonBox" nbButton hero status="info"
+                                        [routerLink]="['/dashboard/productos', producto.id, 'equivalences']"
+                                        (click)="asignarInformaionDeProducto(producto)" title="Ver equivalencia">
+                                        <nb-icon icon="boxes" pack="fas"></nb-icon>
+                                    </button>
+                                    <button class="buttonBox" nbButton hero status="warning"
+                                        (click)="abrirModal(content, false, producto)" title="Editar">
+                                        <nb-icon icon="edit" pack="fas"></nb-icon>
+                                    </button>
+                                    <button class="buttonBox" nbButton hero status="danger"
+                                        (click)="eliminarProducto(producto.id)" title="Eliminar">
+                                        <nb-icon icon="trash" pack="fas"></nb-icon>
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -64,3 +84,175 @@
         </div>
     </nb-card-body>
 </nb-card>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <form [formGroup]="productoFormulario" (ngSubmit)="agregarProducto()">
+        <nb-card>
+            <nb-card-header *ngIf="this.optionModal">Agregar Producto</nb-card-header>
+            <nb-card-header *ngIf="!this.optionModal">Editar Producto</nb-card-header>
+
+            <nb-card-body>
+                <div class="row" *ngIf="this.optionModal">
+                    <div class="col-6">
+                        <label class="label">Armadora:</label>
+                        <select class="form-control" type="text" (change)="cargarModelo($event.target.value)">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="arm.clclave" *ngFor="let arm of armadora">{{arm.descripcion}}</option>
+                        </select>
+                        <i></i>
+                    </div>
+
+                    <div class="col-6">
+                        <label class="label">Modelo:</label>
+                        <select class="form-control" type="text" (change)="cargarTipodeProducto($event.target.value)">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="mod.clclave" *ngFor="let mod of modelo">{{mod.descripcion}}</option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="this.optionModal">
+
+                    <div class="col-6 content-select">
+                        <label class="label">Tipo de producto:</label>
+                        <select class="form-control" type="text" formControlName="tipo_de_producto_f">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="tip.descripcion" *ngFor="let tip of tipoPro"> {{ tip.descripcion }}
+                            </option>
+                        </select>
+                        <i></i>
+                    </div>
+
+                    <div class="col-6">
+                        <label class="label">Nombre</label>
+                        <input *ngIf="!nombre_f.dirty || nombre_f.valid" nbInput class="form-control" type="text"
+                            formControlName="nombre_f" placeholder="Ingrese el nombre del producto">
+
+                        <div *ngIf="nombre_f.invalid && (nombre_f.dirty)">
+                            <input nbInput class="form-control" type="text" status="danger" formControlName="nombre_f"
+                                placeholder="Ingrese el nombre del producto">
+                            <div class="alert-danger">
+                                <div class="container-error-message">
+                                    El nombre es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" *ngIf="this.optionModal">
+                    <div class="col-6 content-select">
+                        <label class="label">Linea:</label>
+                        <select class="form-control" type="text" formControlName="linea_f">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="lin.nombre" *ngFor="let lin of linea"> {{lin.nombre}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+
+                    <div class="col-6 content-select">
+                        <label class="label">Categoría:</label>
+                        <select class="form-control" type="text" formControlName="categoria_f">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="cat.nombre" *ngFor="let cat of categoria"> {{cat.nombre}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6" *ngIf="this.optionModal">
+                        <label class="label">#parte:</label>
+                        <input *ngIf="!parte_f.dirty || parte_f.valid" nbInput class="form-control" type="text"
+                            formControlName="parte_f" placeholder="Ingrese #Parte">
+
+                        <div *ngIf="parte_f.invalid && (parte_f.dirty)">
+                            <input nbInput class="form-control" type="text" status="danger" formControlName="parte_f"
+                                placeholder="Ingrese #Parte">
+                            <div class="alert-danger">
+                                <div class="container-error-message">
+                                    El #parte es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-6">
+                        <label class="label">Cantidad:</label>
+                        <input *ngIf="!cantidad_f.dirty || cantidad_f.valid" nbInput class="form-control" type="text"
+                            formControlName="cantidad_f" placeholder="Ingrese la cantidad de productos">
+        
+                        <div *ngIf="cantidad_f.invalid && (cantidad_f.dirty)">
+                            <input nbInput class="form-control" type="text" status="danger" formControlName="cantidad_f"
+                                placeholder="Ingrese la cantidad de productos">
+                            <div class="alert-danger">
+                                <div class="container-error-message">
+                                    La cantidad es requerida
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label class="label">Precio:</label>
+                        <input *ngIf="!precio_f.dirty || precio_f.valid" nbInput class="form-control" type="text"
+                            formControlName="precio_f" placeholder="Ingrese un precio">
+
+                        <div *ngIf="precio_f.invalid && (precio_f.dirty)">
+                            <input nbInput class="form-control" type="text" status="danger" formControlName="precio_f"
+                                placeholder="Ingrese un precio">
+                            <div class="alert-danger">
+                                <div class="container-error-message">
+                                    Este campo es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-6 content-select">
+                        <label class="label">Unidad de medida:</label>
+                        <select class="form-control" type="text" formControlName="unidad_de_medida_f">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="unidad.nombre" *ngFor="let unidad of unidades"> {{unidad.nombre}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label class="label">Proveedor</label>
+                        <select class="form-control" type="text" formControlName="proveedor_f">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="prov.nombre" *ngFor="let prov of proveedores"> {{prov.nombre}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+
+                    <div class="col-6">
+                        <label class="label">Factura</label>
+                        <select class="form-control" type="text" formControlName="factura_f">
+                            <option [value]="0">Seleccione una opción</option>
+                            <option [value]="fac.folio" *ngFor="let fac of facturas"> {{fac.folio}} </option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+            </nb-card-body>
+
+            <nb-card-footer>
+                <button *ngIf="this.optionModal" nbButton hero status="success" [disabled]="productoFormulario.invalid"
+                    type="submit">Agregar</button>
+                <button *ngIf="!this.optionModal" nbButton hero status="success" type="submit"
+                    (click)="actualizarProducto()">Guardar</button>
+                <button nbButton outline style="margin-left: 15px;" (click)="close()">Cancelar</button>
+            </nb-card-footer>
+        </nb-card>
+    </form>
+</ng-template>

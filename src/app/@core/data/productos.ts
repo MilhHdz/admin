@@ -1,5 +1,5 @@
 export interface PRODUCTO {
-    id?: number;
+    id?: string;
     nombre: string;
     unidad_de_medida?: string;
     tipo_de_producto?: string;

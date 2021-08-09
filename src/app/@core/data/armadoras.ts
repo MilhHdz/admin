@@ -9,6 +9,14 @@ export interface Armadora {
     descripcion?: string;
 }
 
+export interface ARMADORA {
+    id?: number;
+    nombre?: string;
+    clclave?: string;
+    descripcion?: string;
+}
+
+
 export const ARMADORAS: Armadora[] = [
     { id: 1, nombre: 'Renault' },
     { id: 2, nombre: 'NISSAN' },

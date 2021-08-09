@@ -81,11 +81,11 @@ export class DataService {
     }
     
     putProduct(id: string, prod: any) {
-        return this.http.put(this.url_host_pro + 'product/' + id, prod);
+        return this.http.put(this.url_host_dev + 'product/' + this.sucursal + '/' + id, prod);
     }
 
     deleteProduct(id: string): Observable<any> {
-        return this.http.delete(this.url_host_pro + 'product/' + id);
+        return this.http.delete(this.url_host_dev + 'product/' + this.sucursal + '/' + id);
     }
 
     getAllCategories(): Observable<any> {
@@ -133,11 +133,11 @@ export class DataService {
     }
 
     getAllProveedor(): Observable<any> {
-        return this.http.get<any>(this.url_host_pro + 'proveedor/');
+        return this.http.get<any>(this.url_host_dev + 'proveedor/' + this.sucursal);
     }
 
     postProveedor(prov: any): Observable<any> {
-        return this.http.post(this.url_host_pro + 'proveedor/', prov);
+        return this.http.post(this.url_host_dev + 'proveedor/' + this.sucursal, prov);
     }
 
     deleteProveedor(id: string): Observable<any> {
@@ -145,7 +145,7 @@ export class DataService {
     }
 
     getAllFactura(): Observable<any> {
-        return this.http.get<any>(this.url_host_pro + 'factura/');
+        return this.http.get<any>(this.url_host_dev + 'factura/' + this.sucursal);
     }
 
     postFactura(fact: any): Observable<any> {
@@ -198,5 +198,9 @@ export class DataService {
 
     createProductoCotizado(proCot: any): Observable<any> {
         return this.http.post(this.url_host_pro + 'producto-cotizado', proCot);
+    }
+
+    getAllUnit(): Observable<any> {
+        return this.http.get<any>(this.url_host_dev + 'unidad_de_medida');
     }
 }
