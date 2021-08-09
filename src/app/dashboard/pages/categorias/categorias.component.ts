@@ -46,8 +46,6 @@ export class CategoriasComponent {
 
         this.loadData();
 
-        this.categorias = this.dataService.CATEGORIAS;
-
         this.categoriaForm = this.createFormGroup();
 
         /*
@@ -61,16 +59,17 @@ export class CategoriasComponent {
 
 
     loadData() {
+        this.categorias = [];
         this.dataService.getAllCategories().subscribe(
             res => {
-                this.dataService.CATEGORIAS = res;
+                if (res.code === 200) {
+                    this.categorias = res.result;
+                    this.categorias$ = this.filter.valueChanges.pipe(
+                        startWith(''),
+                        map(text => this.search(text, this.pipe)),
+                    );
+                }           
             },
-        );
-
-
-        this.categorias$ = this.filter.valueChanges.pipe(
-            startWith(''),
-            map(text => this.search(text, this.pipe)),
         );
     }
 

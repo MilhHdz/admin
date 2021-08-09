@@ -89,11 +89,11 @@ export class DataService {
     }
 
     getAllCategories(): Observable<any> {
-        return this.http.get<any>(this.url_host_pro + 'category/');
+        return this.http.get<any>(this.url_host_dev + 'category/');
     }
 
     postCategry(cad: any): Observable<any> {
-        return this.http.post(this.url_host_pro + 'category/', cad);
+        return this.http.post(this.url_host_dev + 'category/', cad);
     }
 
     deleteCategory(id: string): Observable<any> {

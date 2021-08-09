@@ -3,9 +3,9 @@
 
         <div class="col-10 fontSize">Categorías</div>
         <div class="col-2">
-            <button class="posicion" nbButton hero status="info" size="small" (click)="open(content, true, null)">
+            <!-- <button class="posicion" nbButton hero status="info" size="small" (click)="open(content, true, null)">
                 agregar
-            </button>
+            </button> -->
         </div>
 
     </nb-card-header>
@@ -16,7 +16,7 @@
     <nb-card-body>
 
         <div class="row">
-            <div class="table-responsive">
+            <div class="table-responsive" *ngIf="categorias">
                 <form style="margin-top: 3px;">
                     <div class="form-group form-inline">
                         Buscar: <input nbInput class="form-control ml-2" type="text" [formControl]="filter" />
@@ -29,7 +29,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col" class="widthCol">Acciones</th>
+                            <!-- <th scope="col" class="widthCol">Acciones</th> -->
                         </tr>
                     </thead>
 
@@ -37,21 +37,20 @@
                         <tr *ngFor="let info of this.categorias$ | async; index as i">
                             <th scope="row"> {{i + 1}} </th>
                             <td> {{info.nombre}} </td>
-                            <td class="botonesT">
-                                <!-- <button class="buttonBox" nbButton hero status="warning"
-                                    (click)="open(content, false, info.nombre)" title="Editar">
-                                    <nb-icon icon="edit" pack="fas"></nb-icon>
-                                </button> -->
+                            <!-- <td class="botonesT">
                                 <button class="buttonBox" nbButton hero status="danger" (click)="onRemoveItem(info.id)"
                                     title="Eliminar">
                                     <nb-icon icon="trash" pack="fas"></nb-icon>
                                 </button>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
 
                 </table>
             </div>
+            <h3 *ngIf="!categorias">
+                No hay categorias registrados
+            </h3>
         </div>
 
     </nb-card-body>
