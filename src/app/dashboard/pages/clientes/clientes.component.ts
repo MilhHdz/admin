@@ -55,8 +55,6 @@ export class ClientesComponent {
     ) {
         this.iconLibraries.registerFontPack('fas', { packClass: 'fas', iconClassPrefix: 'fa' });
 
-        this.clientes = CLIENTES;
-
         this.loadData();
 
         this.clienteForm = this.createFormGroup();
@@ -72,14 +70,16 @@ export class ClientesComponent {
 
 
     loadData() {
+        this.clientes = [];
         this.service.getAllCliente().subscribe(
             res => {
-                this.clientes = res;
-
-                this.clientes$ = this.filter.valueChanges.pipe(
-                    startWith(''),
-                    map(text => this.search(text, this.pipe)),
-                );
+                if (res.code === 200) {
+                    this.clientes = res.result;
+                    this.clientes$ = this.filter.valueChanges.pipe(
+                        startWith(''),
+                        map(text => this.search(text, this.pipe)),
+                    );
+                }
             },
         );
     }
@@ -100,18 +100,15 @@ export class ClientesComponent {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                this.SeewLoading('Eliminando');
+                this.alertaInicial('Eliminando');
 
                 this.service.deleteCliente(id).subscribe(
                     res => {
-                        this.loadData();
-                        Swal.fire({
-                            title: 'Buen trabajo',
-                            text: 'Se ha eliminado con exito',
-                            icon: 'success',
-                            allowEscapeKey: false,
-                            allowOutsideClick: false,
-                        });
+                        if (res.code === 200) {
+                            this.loadData();
+                            this.alertaFinal('Buen trabajo', 'Se ha eliminado con exito', 'success');
+                        }
+                        else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');
                     }
                 );
             }
@@ -119,7 +116,8 @@ export class ClientesComponent {
     }
 
 
-    SeewLoading(titulo) {
+    // ***** ALERTS *****
+    alertaInicial(titulo) {
         Swal.fire({
             allowOutsideClick: false,
             icon: 'info',
@@ -127,6 +125,16 @@ export class ClientesComponent {
             text: 'Espere un momento por favor...',
         });
         Swal.showLoading();
+    }
+
+    alertaFinal(title, text, icon) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+        });
     }
 
 
@@ -180,13 +188,16 @@ export class ClientesComponent {
 
     onSeveForm() {
         if (this.clienteForm.valid) {
-            // console.log('saved ', this.clienteForm.value);
+            this.alertaInicial('Agregando un nuevo cliente');
             if (this.optionModal) {
                 this.dataValue();
                 this.service.postCliente(this.saveCliente).subscribe(
                     res => {
-                        console.log(res);
-                        this.loadData();
+                        if (res.code === 200) {
+                            this.loadData();
+                            this.alertaFinal('Buen trabajo', 'Se ha agregado un nuevo cliente', 'success');
+                        }
+                        else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');                       
                     },
                 );
             }

@@ -157,15 +157,15 @@ export class DataService {
     }
 
     getAllCliente(): Observable<any> {
-        return this.http.get<any>(this.url_host_pro + 'cliente/');
+        return this.http.get<any>(this.url_host_dev + 'cliente/' + this.sucursal);
     }
 
     postCliente(clie: any): Observable<any> {
-        return this.http.post(this.url_host_pro + 'cliente/', clie);
+        return this.http.post(this.url_host_dev + 'cliente/' + this.sucursal, clie);
     }
 
     deleteCliente(id: string): Observable<any> {
-        return this.http.delete(this.url_host_pro + 'cliente/' + id);
+        return this.http.delete(this.url_host_dev + 'cliente/' + this.sucursal + '/' + id);
     }
 
     getAllVendedor(): Observable<any> {

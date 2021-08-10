@@ -16,7 +16,7 @@
     <nb-card-body>
 
         <div class="row">
-            <div class="table-responsive">
+            <div class="table-responsive" *ngIf="clientes">
                 <form style="margin-top: 3px;">
                     <div class="form-group form-inline">
                         Buscar: <input nbInput class="form-control ml-2" type="text" [formControl]="filter" />
@@ -60,6 +60,9 @@
 
                 </table>
             </div>
+            <h3 *ngIf="!clientes">
+                No hay clientes registrados
+            </h3>
         </div>
 
     </nb-card-body>
