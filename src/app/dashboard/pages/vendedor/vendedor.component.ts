@@ -20,13 +20,24 @@ export class VendedorComponent {
 
     vendedores: Vendedor[];
     vendedores$: Observable<Vendedor[]>;
+
+    personal: Vendedor = {
+        'nombre': '',
+        'ape_pat': '',
+        'ape_mat': '',
+        'telefono': '',
+        'correo': '',
+        'contraseña': '',
+        'id_sucursal': ''
+    }
     createFormGroup() {
         return new FormGroup({
             nombre_f: new FormControl('', Validators.required),
             ape_pat_f: new FormControl('', Validators.required),
             ape_mat_f: new FormControl('', Validators.required),
-            telefono: new FormControl('', Validators.required),
-            correo_electronico: new FormControl('', Validators.required),
+            telefono_f: new FormControl('', Validators.required),
+            correo_electronico_f: new FormControl('', Validators.required),
+            contrasena_f: new FormControl('', Validators.required),
         });
     }
     vendedorForm: FormGroup;
@@ -55,14 +66,16 @@ export class VendedorComponent {
 
 
    loadData() {
+       this.vendedores = [];
        this.service.getAllVendedor().subscribe(
            res => {
-               this.vendedores = res;
-
-               this.vendedores$ = this.filter.valueChanges.pipe(
-                   startWith(''),
-                   map(text => this.search(text, this.pipe)),
-               );
+                if (res.code === 200) {
+                    this.vendedores = res.result;
+                    this.vendedores$ = this.filter.valueChanges.pipe(
+                        startWith(''),
+                        map(text => this.search(text, this.pipe)),
+                    );
+                }
            }
        );
    }
@@ -76,6 +89,33 @@ export class VendedorComponent {
            || vendedor.ape_mat.toLowerCase().includes(term);
        });
    }
+
+    dataValue() {
+        this.personal.nombre = this.vendedorForm.value['nombre_f'];
+        this.personal.ape_pat = this.vendedorForm.value['ape_pat_f'];
+        this.personal.ape_mat = this.vendedorForm.value['ape_mat_f'];
+        this.personal.telefono = this.vendedorForm.value['telefono_f'];
+        this.personal.correo = this.vendedorForm.value['correo_electronico_f'];
+        this.personal.contraseña = this.vendedorForm.value['contrasena_f'];
+        this.personal.id_sucursal = this.service.sucursal;
+    }
+
+    agregarPersonal() {
+        if (this.vendedorForm.valid) {
+            this.alertaInicial('Agregando un nuevo personal');
+
+            this.dataValue();
+            this.service.postVendedor(this.personal).subscribe(
+                res => {
+                    if (res.code === 200) {
+                        this.loadData();
+                        this.alertaFinal('Buen trabajo', 'Se ha agregado un nuevo personal', 'success');
+                    }
+                    else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');
+                }
+            );
+        }
+    }
 
 
    onRemoveItem(id) {
@@ -93,18 +133,14 @@ export class VendedorComponent {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                this.SeewLoading('Eliminando');
+                this.alertaInicial('Eliminando');
 
                 this.service.deleteVendedor(id).subscribe(
                     res => {
                         this.loadData();
-                        Swal.fire({
-                            title: 'Buen trabajo',
-                            text: 'Se ha eliminado con exito',
-                            icon: 'success',
-                            allowEscapeKey: false,
-                            allowOutsideClick: false,
-                        });
+
+                        this.alertaFinal('Buen trabajo', 'Se ha eliminado con exito', 'success');
+                        // else this.alertaFinal('Ocurrio un error', 'Intentalo de nuevo', 'error');
                     }
                 );
             }
@@ -112,7 +148,8 @@ export class VendedorComponent {
    }
 
 
-    SeewLoading(titulo) {
+    // ***** ALERTS *****
+    alertaInicial(titulo) {
         Swal.fire({
             allowOutsideClick: false,
             icon: 'info',
@@ -120,6 +157,16 @@ export class VendedorComponent {
             text: 'Espere un momento por favor...',
         });
         Swal.showLoading();
+    }
+
+    alertaFinal(title, text, icon) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+        });
     }
 
     open(content) {
@@ -134,7 +181,8 @@ export class VendedorComponent {
     get nombre_f() { return this.vendedorForm.get('nombre_f'); }
     get ape_pat_f() { return this.vendedorForm.get('ape_pat_f'); }
     get ape_mat_f() { return this.vendedorForm.get('ape_mat_f'); }
-    get telefono() { return this.vendedorForm.get('telefono'); }
-    get correo_electronico() { return this.vendedorForm.get('correo_electronico'); }
+    get telefono_f() { return this.vendedorForm.get('telefono_f'); }
+    get correo_electronico_f() { return this.vendedorForm.get('correo_electronico_f'); }
+    get contrasena_f() { return this.vendedorForm.get('contrasena_f'); }
 
 }

@@ -5,6 +5,8 @@ export interface Vendedor {
     ape_mat: string;
     telefono?: string;
     correo?: string;
+    contraseña?: string;
+    id_sucursal?: string;
     eliminado?: string;
     creado?: string;
 }

@@ -16,7 +16,7 @@
     <nb-card-body>
 
         <div class="row">
-            <div class="table-responsive">
+            <div class="table-responsive" *ngIf="vendedores">
                 <form style="margin-top: 3px;">
                     <div class="form-group form-inline">
                         Buscar: <input nbInput class="form-control ml-2" type="text" [formControl]="filter" />
@@ -56,6 +56,9 @@
 
                 </table>
             </div>
+            <h3 *ngIf="!vendedores">
+                No hay personal registrados
+            </h3>
         </div>
 
     </nb-card-body>
@@ -64,8 +67,8 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <nb-card-header class="modal-Title" *ngIf="this.optionModal">Agregar Cliente</nb-card-header>
-        <nb-card-header class="modal-Title" *ngIf="!this.optionModal">Editar Cliente</nb-card-header>
+        <nb-card-header class="modal-Title">Agregar Cliente</nb-card-header>
+        <!-- <nb-card-header class="modal-Title" *ngIf="!this.optionModal">Editar Cliente</nb-card-header> -->
     </div>
 
     <div class="modal-body">
@@ -128,12 +131,12 @@
 
                 <div class="col-6">
                     <label class="label">Teléfono</label>
-                    <input *ngIf="!telefono.dirty || telefono.valid" nbInput fullWidth class="form-control" type="text"
-                        placeholder="Número de teléfono" formControlName="telefono">
+                    <input *ngIf="!telefono_f.dirty || telefono_f.valid" nbInput fullWidth class="form-control" type="text"
+                        placeholder="Número de teléfono" formControlName="telefono_f">
 
-                    <div *ngIf="telefono.invalid && (telefono.dirty)">
+                    <div *ngIf="telefono_f.invalid && (telefono_f.dirty)">
                         <input nbInput fullWidth class="form-control" type="text" status="danger"
-                            placeholder="Número de teléfono" formControlName="telefono">
+                            placeholder="Número de teléfono" formControlName="telefono_f">
 
                         <div class="alert-danger">
                             <div class="container-error-message">
@@ -147,13 +150,13 @@
             <div class="row" style="margin-top: 10px;">
                 <div class="col">
                     <label class="label">Correo electrónico</label>
-                    <input *ngIf="!correo_electronico.dirty || correo_electronico.valid" nbInput fullWidth
+                    <input *ngIf="!correo_electronico_f.dirty || correo_electronico_f.valid" nbInput fullWidth
                         class="form-control" type="text" placeholder="Correo electrónico"
-                        formControlName="correo_electronico">
+                        formControlName="correo_electronico_f">
 
-                    <div *ngIf="correo_electronico.invalid && (correo_electronico.dirty)">
+                    <div *ngIf="correo_electronico_f.invalid && (correo_electronico_f.dirty)">
                         <input nbInput fullWidth class="form-control" type="text" status="danger"
-                            placeholder="Correo electrónico" formControlName="correo_electronico">
+                            placeholder="Correo electrónico" formControlName="correo_electronico_f">
 
                         <div class="alert-danger">
                             <div class="container-error-message">
@@ -163,14 +166,35 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                    <label class="label">Contraseña</label>
+                    <input *ngIf="!contrasena_f.dirty || contrasena_f.valid" nbInput fullWidth
+                        class="form-control" type="password" placeholder="Contraseña"
+                        formControlName="contrasena_f">
+
+                    <div *ngIf="contrasena_f.invalid && (contrasena_f.dirty)">
+                        <input nbInput fullWidth class="form-control" type="password" status="danger"
+                            placeholder="Contraseña" formControlName="contrasena_f">
+
+                        <div class="alert-danger">
+                            <div class="container-error-message">
+                                Este campo es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </form>
     </div>
 
     <div class="modal-footer">
-        <button *ngIf="this.optionModal" nbButton hero status="success" [disabled]="vendedorForm.invalid"
-            (click)="onSeveForm()">Agregar</button>
-        <button *ngIf="!this.optionModal" nbButton hero status="success" [disabled]="vendedorForm.invalid"
-            (click)="onSeveForm()">Guardar</button>
+        <button nbButton hero status="success" [disabled]="vendedorForm.invalid"
+            (click)="agregarPersonal()">Agregar</button>
+        <!-- <button *ngIf="!this.optionModal" nbButton hero status="success" [disabled]="vendedorForm.invalid"
+            (click)="onSeveForm()">Guardar</button> -->
         <button nbButton outline style="margin-left: 15px;" (click)="close()">Cancelar</button>
     </div>
 </ng-template>

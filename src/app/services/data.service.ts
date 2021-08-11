@@ -80,7 +80,7 @@ export class DataService {
         return this.http.post(this.url_host_dev + 'product/' + this.sucursal, prod);
     }
     
-    putProduct(id: string, prod: any) {
+    putProduct(id: string, prod: any): Observable<any> {
         return this.http.put(this.url_host_dev + 'product/' + this.sucursal + '/' + id, prod);
     }
 
@@ -169,11 +169,15 @@ export class DataService {
     }
 
     getAllVendedor(): Observable<any> {
-        return this.http.get<any>(this.url_host_pro + 'vendedor/');
+        return this.http.get<any>(this.url_host_dev + 'vendedor/sucursal/' + this.sucursal);
+    }
+
+    postVendedor(personal: any): Observable<any> {
+        return this.http.post(this.url_host_dev + 'vendedor/', personal);
     }
 
     deleteVendedor(id: string): Observable<any> {
-        return this.http.delete(this.url_host_pro + 'vendedor/' + id);
+        return this.http.delete(this.url_host_dev + 'vendedor/' + id);
     }
 
     getAllCotizacion(): Observable<any> {
